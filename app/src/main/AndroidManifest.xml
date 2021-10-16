@@ -23,7 +23,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.HelloActivity"
+            android:name=".ui.StartActivity"
             android:exported="true">
         </activity>
     </application>
