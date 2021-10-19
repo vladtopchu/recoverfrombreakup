@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/tasksFragment"
+        android:icon="@drawable/ic_launcher_foreground"
+        android:title="Задания" />
+    <item
+        android:id="@+id/meditationsFragment"
+        android:icon="@drawable/ic_launcher_foreground"
+        android:title="Медитации" />
+    <item
+        android:id="@+id/graphFragment"
+        android:icon="@drawable/ic_launcher_foreground"
+        android:title="График" />
+</menu>

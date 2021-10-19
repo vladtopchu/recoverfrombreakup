@@ -8,14 +8,6 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingVertical="10dp"
-        android:paddingHorizontal="5dp"
-        android:text="Задания"
-        android:textSize="20dp" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:padding="5dp"
         android:background="@color/black"
         android:textColor="@color/white"
@@ -33,15 +25,6 @@
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:background="@color/white"
-            android:text="Получить доступ"
-            android:gravity="center"
-            android:layout_alignParentBottom="true"/>
 
     </RelativeLayout>
 

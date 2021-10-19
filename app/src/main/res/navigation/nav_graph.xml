@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/nav_graph">
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/tasksFragment">
 
+    <fragment
+        android:id="@+id/meditationsFragment"
+        android:name="com.topchu.recoverfrombreakup.ui.MeditationsFragment"
+        android:label="Медитации" />
+    <fragment
+        android:id="@+id/graphFragment"
+        android:name="com.topchu.recoverfrombreakup.ui.GraphFragment"
+        android:label="График" />
+    <fragment
+        android:id="@+id/tasksFragment"
+        android:name="com.topchu.recoverfrombreakup.ui.TasksFragment"
+        android:label="Задания" />
 </navigation>
