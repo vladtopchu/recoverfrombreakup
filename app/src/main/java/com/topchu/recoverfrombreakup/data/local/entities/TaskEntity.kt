@@ -7,11 +7,11 @@ import java.sql.Date
 
 @Entity(tableName = "tasks")
 data class TaskEntity(
-    @PrimaryKey(autoGenerate = true) val id: Long = 0L,
-    @ColumnInfo() val title: String,
-    @ColumnInfo() val subtitle: String,
-    @ColumnInfo(name = "is_opened") val isOpened: Boolean,
+    val title: String,
+    val subtitle: String,
+    @ColumnInfo(name = "is_opened") val isOpened: Boolean = false,
+    @ColumnInfo(name = "is_blocked") val isBlocked: Boolean = false,
+    @ColumnInfo(name = "has_meditation") val hasMeditation: Boolean = false,
     @ColumnInfo(name = "will_open_at") val willOpenAt: Long? = null,
-    @ColumnInfo(name = "is_blocked") val isBlocked: Boolean,
-    @ColumnInfo(name = "has_meditation") val hasMeditation: Boolean
+    @PrimaryKey(autoGenerate = true) val id: Long = 0L
 )

@@ -31,18 +31,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        database = AppDatabase.getInstance(this)
 
         val navController = findNavController(R.id.nav_host_fragment)
         binding.bottomNavView.setupWithNavController(navController)
 
-        lifecycleScope.launch {
-            withContext(Dispatchers.IO){
-                for(task: TaskEntity in database.taskDao.getAllTasks()){
-                    Log.d("RFB_TEST", task.toString())
-                }
-            }
-        }
     }
 }
 

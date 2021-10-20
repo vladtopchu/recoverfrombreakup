@@ -1,4 +1,4 @@
-package com.topchu.recoverfrombreakup.ui
+package com.topchu.recoverfrombreakup.ui.fragments
 
 import android.content.Intent
 import android.os.Bundle
