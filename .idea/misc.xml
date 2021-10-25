@@ -10,7 +10,10 @@
         <entry key="..\:/dev/recoverfrombreakup/app/src/main/res/layout/fragment_auth.xml" value="0.19791666666666666" />
         <entry key="..\:/dev/recoverfrombreakup/app/src/main/res/layout/fragment_graph.xml" value="0.36666666666666664" />
         <entry key="..\:/dev/recoverfrombreakup/app/src/main/res/layout/fragment_meditations.xml" value="0.36666666666666664" />
+        <entry key="..\:/dev/recoverfrombreakup/app/src/main/res/layout/fragment_start.xml" value="0.19583333333333333" />
         <entry key="..\:/dev/recoverfrombreakup/app/src/main/res/layout/fragment_tasks.xml" value="0.36666666666666664" />
+        <entry key="..\:/dev/recoverfrombreakup/app/src/main/res/layout/fragment_welcome.xml" value="0.19583333333333333" />
+        <entry key="..\:/dev/recoverfrombreakup/app/src/main/res/layout/item_task.xml" value="0.18854166666666666" />
         <entry key="..\:/dev/recoverfrombreakup/app/src/main/res/menu/bottom_menu.xml" value="0.36666666666666664" />
       </map>
     </option>

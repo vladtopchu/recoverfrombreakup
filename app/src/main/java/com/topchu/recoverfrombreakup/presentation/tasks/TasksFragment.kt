@@ -1,4 +1,4 @@
-package com.topchu.recoverfrombreakup.ui.fragments
+package com.topchu.recoverfrombreakup.presentation.tasks
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,31 +7,21 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.android.gms.common.api.ApiException
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.GoogleAuthProvider
-import com.topchu.recoverfrombreakup.R
-import com.topchu.recoverfrombreakup.databinding.FragmentAuthBinding
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.topchu.recoverfrombreakup.databinding.FragmentTasksBinding
-import com.topchu.recoverfrombreakup.ui.viewmodels.TasksViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class TasksFragment : Fragment() {
     private var _binding: FragmentTasksBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var launcher: ActivityResultLauncher<Intent>
-
     private val viewModel: TasksViewModel by viewModels()
+
+    private lateinit var recyclerViewAdapter: BasicAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,11 +35,21 @@ class TasksFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         // Kotlin syntax allow us to put callback after parameters
         // if it's suppose to be the last parameter of function
+
+        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        val decoration = DividerItemDecoration(
+            requireContext().applicationContext, DividerItemDecoration.VERTICAL)
+        binding.recyclerView.addItemDecoration(decoration)
+        recyclerViewAdapter = BasicAdapter()
+        binding.recyclerView.adapter = recyclerViewAdapter
+
         viewModel.tasks.observe(viewLifecycleOwner) {
-            it.forEach { task ->
-                Log.d("RFB_TEST", task.toString())
+            if(it != null){
+                recyclerViewAdapter.setTasks(it)
+                recyclerViewAdapter.notifyDataSetChanged()
             }
         }
+
     }
 
 }

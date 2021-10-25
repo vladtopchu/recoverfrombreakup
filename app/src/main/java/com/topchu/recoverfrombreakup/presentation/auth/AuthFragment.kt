@@ -1,4 +1,4 @@
-package com.topchu.recoverfrombreakup.ui.fragments
+package com.topchu.recoverfrombreakup.presentation.auth
 
 import android.content.Intent
 import android.os.Bundle
@@ -18,8 +18,10 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.topchu.recoverfrombreakup.R
 import com.topchu.recoverfrombreakup.databinding.FragmentAuthBinding
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class AuthFragment : Fragment() {
     private var _binding: FragmentAuthBinding? = null
     private val binding get() = _binding!!

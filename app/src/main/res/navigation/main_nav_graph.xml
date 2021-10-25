@@ -6,14 +6,12 @@
 
     <fragment
         android:id="@+id/meditationsFragment"
-        android:name="com.topchu.recoverfrombreakup.ui.fragments.MeditationsFragment"
+        android:name="com.topchu.recoverfrombreakup.presentation.meditations.MeditationsFragment"
         android:label="Медитации" />
-    <fragment
-        android:id="@+id/graphFragment"
-        android:name="com.topchu.recoverfrombreakup.ui.fragments.GraphFragment"
-        android:label="График" />
+
     <fragment
         android:id="@+id/tasksFragment"
-        android:name="com.topchu.recoverfrombreakup.ui.fragments.TasksFragment"
+        android:name="com.topchu.recoverfrombreakup.presentation.tasks.TasksFragment"
         android:label="Задания" />
+
 </navigation>

@@ -1,4 +1,4 @@
-package com.topchu.recoverfrombreakup.ui.fragments
+package com.topchu.recoverfrombreakup.presentation.start
 
 import android.content.Intent
 import android.os.Bundle
@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.navigation.fragment.findNavController
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -17,14 +18,13 @@ import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.topchu.recoverfrombreakup.R
-import com.topchu.recoverfrombreakup.databinding.FragmentAuthBinding
-import com.topchu.recoverfrombreakup.databinding.FragmentGraphBinding
-import com.topchu.recoverfrombreakup.databinding.FragmentMeditationsBinding
-import com.topchu.recoverfrombreakup.databinding.FragmentTasksBinding
+import com.topchu.recoverfrombreakup.databinding.*
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
-class GraphFragment : Fragment() {
-    private var _binding: FragmentGraphBinding? = null
+@AndroidEntryPoint
+class StartFragment : Fragment() {
+    private var _binding: FragmentStartBinding? = null
     private val binding get() = _binding!!
 
     private lateinit var launcher: ActivityResultLauncher<Intent>
@@ -33,14 +33,15 @@ class GraphFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentGraphBinding.inflate(inflater, container, false)
+        _binding = FragmentStartBinding.inflate(inflater, container, false)
         return binding.root
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.toWelcomeFragment.setOnClickListener {
+            findNavController().navigate(R.id.welcomeFragment)
+        }
     }
 
 }

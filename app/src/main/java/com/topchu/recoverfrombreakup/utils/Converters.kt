@@ -1,21 +1,24 @@
 package com.topchu.recoverfrombreakup.utils
 
+import android.util.Log
 import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import java.lang.Integer.parseInt
 import java.lang.reflect.Type
-
 
 class Converters {
     @TypeConverter
-    fun fromString(value: String?): ArrayList<String> {
-        val listType: Type = object : TypeToken<ArrayList<String?>?>() {}.type
-        return Gson().fromJson(value, listType)
+    fun fromList(list: List<Int>): String {
+        return list.joinToString()
     }
 
     @TypeConverter
-    fun fromArrayList(list: ArrayList<String?>?): String {
-        val gson = Gson()
-        return gson.toJson(list)
+    fun toList(data: String): List<Int> {
+        return data.split(',').map {
+            it.replace(" ", "")
+        }.map {
+            parseInt(it)
+        }
     }
 }

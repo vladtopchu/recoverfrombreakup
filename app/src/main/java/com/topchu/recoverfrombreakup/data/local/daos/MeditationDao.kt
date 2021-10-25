@@ -12,15 +12,12 @@ interface MeditationDao {
     @Query("SELECT * FROM meditations")
     fun getAllMeditations(): Flow<List<MeditationEntity>>
 
-    @Query("SELECT * FROM tasks WHERE id = :id")
-    suspend fun getTaskById(id: Int): TaskEntity
+    @Query("UPDATE meditations SET is_opened = 1 WHERE id = :id")
+    suspend fun openMeditationById(id: Int)
 
-    @Query("UPDATE tasks SET is_opened = 1 WHERE id = :id")
-    suspend fun openTaskById(id: Int)
-
-    @Query("UPDATE tasks SET is_blocked = 0")
-    suspend fun unlockTasks()
+    @Query("UPDATE meditations SET is_blocked = 0")
+    suspend fun unlockMeditations()
 
     @Insert
-    suspend fun insertTask(task: TaskEntity)
+    suspend fun insertMeditation(meditation: MeditationEntity)
 }

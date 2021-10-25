@@ -10,6 +10,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.topchu.recoverfrombreakup.R
 import com.topchu.recoverfrombreakup.data.local.AppDatabase
+import com.topchu.recoverfrombreakup.utils.SharedPref
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -24,12 +25,17 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object AppModule {
 
-    // SupervisorJob() is needed to prevent a cascade cancelation of
+    // SupervisorJob() is needed to prevent a cascade cancellation of
     // child functions if one of 'em fails
     @ApplicationScope
     @Provides
     @Singleton
     fun provideApplicationScope() = CoroutineScope(SupervisorJob())
+
+    @Provides
+    @Singleton
+    fun provideSharedPref(@ApplicationContext context: Context)
+            = SharedPref(context)
 
     @Provides
     @Singleton

@@ -7,13 +7,10 @@ import java.sql.Date
 
 @Entity(tableName = "meditations")
 data class MeditationEntity(
-    @PrimaryKey(autoGenerate = true) val id: Long = 0L,
     @ColumnInfo() val name: String,
     @ColumnInfo() val uri: String,
-    @ColumnInfo(name = "cached_uri") val cachedUri: String?,
-    @ColumnInfo(name = "is_opened") val isOpened: Boolean,
-    @ColumnInfo(name = "task_id") val taskId: Int
+    @ColumnInfo(name = "is_opened") val isOpened: Boolean = false,
+    @ColumnInfo(name = "is_blocked") val isBlocked: Boolean = true,
+    @ColumnInfo(name = "cached_uri") val cachedUri: String? = null,
+    @PrimaryKey(autoGenerate = true) val id: Long = 0L
 )
-
-
-

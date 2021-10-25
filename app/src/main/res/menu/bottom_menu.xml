@@ -8,8 +8,4 @@
         android:id="@+id/meditationsFragment"
         android:icon="@drawable/ic_launcher_foreground"
         android:title="Медитации" />
-    <item
-        android:id="@+id/graphFragment"
-        android:icon="@drawable/ic_launcher_foreground"
-        android:title="График" />
 </menu>
