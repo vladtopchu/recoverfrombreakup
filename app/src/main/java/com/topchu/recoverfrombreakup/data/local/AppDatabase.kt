@@ -42,87 +42,87 @@ abstract class AppDatabase : RoomDatabase() {
             applicationScope.launch {
                 taskDao.insertTask(TaskEntity("День 1", "Сжигаем мосты",
                     listOf(R.string.a_a, R.string.a_b, R.string.a_c, R.string.a_d, R.string.a_e, R.string.a_f, R.string.a_g),
-                    false, false, true, 1))
+                    true, true, false, true, 1))
 
                 taskDao.insertTask(TaskEntity("День 2", "Убираем тревожность",
                     listOf(R.string.b_a, R.string.b_b, R.string.b_c, R.string.b_d),
-                    false, false, true, 2))
+                    false, false, false, true, 2))
 
                 taskDao.insertTask(TaskEntity("День 3", "Стираем «идеальность»",
                     listOf(R.string.c_a, R.string.c_b, R.string.c_c, R.string.c_d),
-                    false, false))
+                    false, false, false))
 
                 taskDao.insertTask(TaskEntity("День 4", "Правила и ограничения",
                     listOf(R.string.d_a, R.string.d_b, R.string.d_c, R.string.d_d, R.string.d_e, R.string.d_f, R.string.d_g),
-                    false, false))
+                    false, false, false))
 
                 taskDao.insertTask(TaskEntity("День 5", "Физическая нагрузка",
                     listOf(R.string.e_a, R.string.e_b, R.string.e_c, R.string.e_d, R.string.e_e, R.string.e_f),
-                    false, false))
+                    false, false, false))
 
                 taskDao.insertTask(TaskEntity("День 6", "Ставим точку",
                     listOf(R.string.f_a, R.string.f_b, R.string.f_c, R.string.f_d),
-                    false, true))
+                    false, false, true))
 
                 taskDao.insertTask(TaskEntity("День 7", "Работа со страхами",
                     listOf(R.string.g_a, R.string.g_b, R.string.g_c),
-                    false, true))
+                    false, false, true))
 
                 taskDao.insertTask(TaskEntity("День 8", "Позитивные эмоции",
                     listOf(R.string.h_a, R.string.h_b, R.string.h_c, R.string.h_d, R.string.h_e),
-                    false, true))
+                    false, false, true))
 
                 taskDao.insertTask(TaskEntity("День 9", "Компенсация общения",
                     listOf(R.string.i_a, R.string.i_b, R.string.i_c, R.string.i_d),
-                    false, true))
+                    false, false, true))
 
                 taskDao.insertTask(TaskEntity("День 10", "Избавляемся от лишнего",
                     listOf(R.string.j_a, R.string.j_b, R.string.j_c, R.string.j_d),
-                    false, true))
+                    false, false, true))
 
                 taskDao.insertTask(TaskEntity("День 11", "Вовлеченность в свою жизнь",
                     listOf(R.string.k_a, R.string.k_b, R.string.k_c, R.string.k_d, R.string.k_e),
-                    false, true))
+                    false, false, true))
 
                 taskDao.insertTask(TaskEntity("День 12", "Планирование",
                     listOf(R.string.l_a, R.string.l_b, R.string.l_c, R.string.l_d, R.string.l_e, R.string.l_f),
-                    false, true, true, 3))
+                    false, false, true, true, 3))
 
                 taskDao.insertTask(TaskEntity("День 13", "Анализ эмоций",
                     listOf(R.string.m_a, R.string.m_b, R.string.m_c),
-                    false, true, true, 4))
+                    false, false, true, true, 4))
 
                 taskDao.insertTask(TaskEntity("День 14", "Воспоминания и мечты",
                     listOf(R.string.n_a, R.string.n_b, R.string.n_c,  R.string.n_d),
-                    false, true))
+                    false, false, true))
 
                 taskDao.insertTask(TaskEntity("День 15", "Солнце внутри",
                     listOf(R.string.o_a, R.string.o_b, R.string.o_c,  R.string.o_d),
-                    false, true))
+                    false, false, true))
 
                 taskDao.insertTask(TaskEntity("День 16", "Границы и норма в отношениях",
                     listOf(R.string.p_a, R.string.p_b, R.string.p_c,  R.string.p_d),
-                    false, true))
+                    false, false, true))
 
                 taskDao.insertTask(TaskEntity("День 17", "Работа с привлечением внимания",
                     listOf(R.string.q_a, R.string.q_b, R.string.q_c,  R.string.q_d),
-                    false, true))
+                    false, false, true))
 
                 taskDao.insertTask(TaskEntity("День 18", "Женственность",
                     listOf(R.string.r_a, R.string.r_b, R.string.r_c,  R.string.r_d),
-                    false, true))
+                    false, false, true))
 
                 taskDao.insertTask(TaskEntity("День 19", "Работа с личными качествами",
                     listOf(R.string.s_a, R.string.s_b, R.string.s_c,  R.string.s_d, R.string.s_e, R.string.s_f, R.string.s_g,  R.string.s_h, R.string.s_i, R.string.s_j, R.string.s_k,  R.string.s_l),
-                    false, true))
+                    false, false, true))
 
                 taskDao.insertTask(TaskEntity("День 20", "Гайд по свиданиям",
                     listOf(R.string.t_a, R.string.t_b, R.string.t_c,  R.string.t_d, R.string.t_e, R.string.t_f, R.string.t_g,  R.string.t_h, R.string.t_i, R.string.t_j, R.string.t_k,  R.string.t_l, R.string.t_m, R.string.t_n, R.string.t_o,  R.string.t_p, R.string.t_q, R.string.t_r, R.string.t_s,  R.string.t_t),
-                    false, true))
+                    false, false, true))
 
                 taskDao.insertTask(TaskEntity("День 21", "Благодарность",
                     listOf(R.string.u_a, R.string.u_b, R.string.u_c,  R.string.u_d, R.string.u_e),
-                    false, true))
+                    false, false, true))
 
                 meditationDao.insertMeditation(MeditationEntity(
                     "Очищение водой\n(День 1)",

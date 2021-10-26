@@ -3,6 +3,12 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/dev/recoverfrombreakup/app/src/main/res/drawable/ic_active.xml" value="0.20572916666666666" />
+        <entry key="..\:/dev/recoverfrombreakup/app/src/main/res/drawable/ic_clock.xml" value="0.20572916666666666" />
+        <entry key="..\:/dev/recoverfrombreakup/app/src/main/res/drawable/ic_launcher_background.xml" value="0.20572916666666666" />
+        <entry key="..\:/dev/recoverfrombreakup/app/src/main/res/drawable/ic_launcher_foreground.xml" value="0.22135416666666666" />
+        <entry key="..\:/dev/recoverfrombreakup/app/src/main/res/drawable/ic_lock.xml" value="0.20572916666666666" />
+        <entry key="..\:/dev/recoverfrombreakup/app/src/main/res/drawable/ic_tasks_background.xml" value="0.20572916666666666" />
         <entry key="..\:/dev/recoverfrombreakup/app/src/main/res/layout/activity_auth.xml" value="0.20520833333333333" />
         <entry key="..\:/dev/recoverfrombreakup/app/src/main/res/layout/activity_hello.xml" value="0.2006340579710145" />
         <entry key="..\:/dev/recoverfrombreakup/app/src/main/res/layout/activity_main.xml" value="0.35260416666666666" />
@@ -11,8 +17,10 @@
         <entry key="..\:/dev/recoverfrombreakup/app/src/main/res/layout/fragment_graph.xml" value="0.36666666666666664" />
         <entry key="..\:/dev/recoverfrombreakup/app/src/main/res/layout/fragment_meditations.xml" value="0.36666666666666664" />
         <entry key="..\:/dev/recoverfrombreakup/app/src/main/res/layout/fragment_start.xml" value="0.19583333333333333" />
+        <entry key="..\:/dev/recoverfrombreakup/app/src/main/res/layout/fragment_task.xml" value="0.20520833333333333" />
         <entry key="..\:/dev/recoverfrombreakup/app/src/main/res/layout/fragment_tasks.xml" value="0.36666666666666664" />
         <entry key="..\:/dev/recoverfrombreakup/app/src/main/res/layout/fragment_welcome.xml" value="0.19583333333333333" />
+        <entry key="..\:/dev/recoverfrombreakup/app/src/main/res/layout/item_paragraph.xml" value="0.20520833333333333" />
         <entry key="..\:/dev/recoverfrombreakup/app/src/main/res/layout/item_task.xml" value="0.18854166666666666" />
         <entry key="..\:/dev/recoverfrombreakup/app/src/main/res/menu/bottom_menu.xml" value="0.36666666666666664" />
       </map>

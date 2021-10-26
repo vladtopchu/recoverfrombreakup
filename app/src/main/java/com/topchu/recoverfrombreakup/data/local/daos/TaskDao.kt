@@ -15,9 +15,15 @@ interface TaskDao {
     suspend fun getTaskById(id: Int): TaskEntity
 
     @Query("UPDATE tasks SET is_opened = 1 WHERE id = :id")
-    suspend fun openTaskById(id: Int)
+    suspend fun openTask(id: Int)
 
-    @Query("UPDATE tasks SET is_blocked = 0")
+    @Query("UPDATE tasks SET is_active = 0 WHERE id = :id")
+    suspend fun makeTaskUnactive(id: Int)
+
+    @Query("UPDATE tasks SET will_open_at = :timestamp  WHERE id = :id")
+    suspend fun setOpeningTimer(id: Int, timestamp: Long)
+
+    @Query("UPDATE tasks SET is_blocked = 0 WHERE is_blocked = 1")
     suspend fun unlockTasks()
 
     @Insert

@@ -5,4 +5,5 @@ object Constants {
     const val TOKEN_KEY = "user_token"
     const val FIRST_LAUNCH_KEY = "first_launch_key"
     const val LAST_OPENED_TASK = "last_opened_task"
+    const val HINT_HIDE = "hint_hide"
 }

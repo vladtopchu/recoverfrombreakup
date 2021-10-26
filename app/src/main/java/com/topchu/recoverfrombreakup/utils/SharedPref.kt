@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import com.topchu.recoverfrombreakup.utils.Constants.FILENAME_KEY
 import com.topchu.recoverfrombreakup.utils.Constants.FIRST_LAUNCH_KEY
+import com.topchu.recoverfrombreakup.utils.Constants.HINT_HIDE
 import com.topchu.recoverfrombreakup.utils.Constants.LAST_OPENED_TASK
 import com.topchu.recoverfrombreakup.utils.Constants.TOKEN_KEY
 
@@ -16,6 +17,12 @@ class SharedPref(context: Context) {
 
     fun setNotFirstLaunch() {
         sharedPreferences.edit().putBoolean(FIRST_LAUNCH_KEY, false).apply()
+    }
+
+    fun isHintHided() = sharedPreferences.getBoolean(HINT_HIDE, false)
+
+    fun hideHint() {
+        sharedPreferences.edit().putBoolean(HINT_HIDE, true).apply()
     }
 
     fun getLastOpenedTask(): Int = sharedPreferences.getInt(LAST_OPENED_TASK, 0)

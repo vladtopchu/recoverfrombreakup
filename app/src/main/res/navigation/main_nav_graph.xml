@@ -12,6 +12,25 @@
     <fragment
         android:id="@+id/tasksFragment"
         android:name="com.topchu.recoverfrombreakup.presentation.tasks.TasksFragment"
-        android:label="Задания" />
+        android:label="Задания">
+
+        <action
+            android:id="@+id/action_tasksFragment_to_taskFragment"
+            app:destination="@id/taskFragment"/>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/taskFragment"
+        android:name="com.topchu.recoverfrombreakup.presentation.task.TaskFragment"
+        android:label="TaskFragment">
+
+        <argument
+            android:name="taskId"
+            app:argType="integer"
+            android:defaultValue="0"
+            />
+
+    </fragment>
 
 </navigation>
