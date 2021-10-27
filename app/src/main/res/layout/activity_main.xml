@@ -18,6 +18,8 @@
         app:navGraph="@navigation/main_nav_graph" />
 
     <TextView
+        android:id="@+id/buy_content"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
@@ -25,10 +27,8 @@
         android:padding="10dp"
         android:text="Получить доступ"/>
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottomNavView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:menu="@menu/bottom_menu" />
+    <include
+        android:id="@+id/bottom_nav"
+        layout="@layout/compound_bottomnav"/>
 
 </LinearLayout>

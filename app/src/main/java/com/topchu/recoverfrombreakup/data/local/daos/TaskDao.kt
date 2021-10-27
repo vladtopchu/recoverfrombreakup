@@ -9,12 +9,12 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface TaskDao {
     @Query("SELECT * FROM tasks")
-    fun getAllTasks(): Flow<List<TaskEntity>>
+    suspend fun getAllTasks(): List<TaskEntity>
 
     @Query("SELECT * FROM tasks WHERE id = :id")
     suspend fun getTaskById(id: Int): TaskEntity
 
-    @Query("UPDATE tasks SET is_opened = 1 WHERE id = :id")
+    @Query("UPDATE tasks SET is_opened = 1, is_active = 1, will_open_at = null WHERE id = :id")
     suspend fun openTask(id: Int)
 
     @Query("UPDATE tasks SET is_active = 0 WHERE id = :id")

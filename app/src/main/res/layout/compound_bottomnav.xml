@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:id="@+id/toTasks"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="5dp"
+        android:gravity="center">
+
+        <ImageView
+            android:id="@+id/toTasksImage"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/ic_tasks_active"/>
+
+        <TextView
+            android:id="@+id/toTasksName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/bottomNavTextInactive"
+            android:layout_marginTop="5dp"
+            android:text="Задания"/>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:background="@color/super_light_gray"
+        android:layout_margin="4dp"/>
+
+    <LinearLayout
+        android:id="@+id/toMeditations"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="5dp"
+        android:gravity="center">
+
+        <ImageView
+            android:id="@+id/toMeditationsImage"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/ic_meditations"/>
+
+        <TextView
+            android:id="@+id/toMeditationsName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/bottomNavTextInactive"
+            android:layout_marginTop="5dp"
+            android:text="Медитации"/>
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -31,7 +31,7 @@ class TaskViewModel @Inject constructor (
                 if(candidate.isActive){
                     taskDao.makeTaskUnactive(taskId)
                     if(taskId != 21){
-                        taskDao.setOpeningTimer(taskId+1, System.currentTimeMillis())
+                        taskDao.setOpeningTimer(taskId+1, System.currentTimeMillis() + 30000)
                     }
                 }
             }

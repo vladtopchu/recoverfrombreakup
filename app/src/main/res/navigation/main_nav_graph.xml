@@ -32,5 +32,9 @@
             />
 
     </fragment>
+    <fragment
+        android:id="@+id/buyFragment"
+        android:name="com.topchu.recoverfrombreakup.presentation.buy.BuyFragment"
+        android:label="BuyFragment" />
 
 </navigation>

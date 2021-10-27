@@ -3,6 +3,8 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/dev/recoverfrombreakup/app/src/main/res/drawable-v24/ic_meditation.xml" value="0.24166666666666667" />
+        <entry key="..\:/dev/recoverfrombreakup/app/src/main/res/drawable-v24/ic_meditation_active.xml" value="0.22135416666666666" />
         <entry key="..\:/dev/recoverfrombreakup/app/src/main/res/drawable/ic_active.xml" value="0.20572916666666666" />
         <entry key="..\:/dev/recoverfrombreakup/app/src/main/res/drawable/ic_clock.xml" value="0.20572916666666666" />
         <entry key="..\:/dev/recoverfrombreakup/app/src/main/res/drawable/ic_launcher_background.xml" value="0.20572916666666666" />
@@ -13,7 +15,11 @@
         <entry key="..\:/dev/recoverfrombreakup/app/src/main/res/layout/activity_hello.xml" value="0.2006340579710145" />
         <entry key="..\:/dev/recoverfrombreakup/app/src/main/res/layout/activity_main.xml" value="0.35260416666666666" />
         <entry key="..\:/dev/recoverfrombreakup/app/src/main/res/layout/activity_start.xml" value="0.36666666666666664" />
+        <entry key="..\:/dev/recoverfrombreakup/app/src/main/res/layout/compound_bottomnav.xml" value="0.36666666666666664" />
+        <entry key="..\:/dev/recoverfrombreakup/app/src/main/res/layout/custom_bnv_button.xml" value="0.22552083333333334" />
+        <entry key="..\:/dev/recoverfrombreakup/app/src/main/res/layout/custom_buttomnav.xml" value="0.22552083333333334" />
         <entry key="..\:/dev/recoverfrombreakup/app/src/main/res/layout/fragment_auth.xml" value="0.19791666666666666" />
+        <entry key="..\:/dev/recoverfrombreakup/app/src/main/res/layout/fragment_buy.xml" value="0.22552083333333334" />
         <entry key="..\:/dev/recoverfrombreakup/app/src/main/res/layout/fragment_graph.xml" value="0.36666666666666664" />
         <entry key="..\:/dev/recoverfrombreakup/app/src/main/res/layout/fragment_meditations.xml" value="0.36666666666666664" />
         <entry key="..\:/dev/recoverfrombreakup/app/src/main/res/layout/fragment_start.xml" value="0.19583333333333333" />

@@ -16,7 +16,7 @@ class TasksAdapter(): RecyclerView.Adapter<TasksAdapter.TasksViewHolder>() {
     }
 
     private lateinit var _listener: OnItemClickListener
-    fun setOnItemClickListener(listener: TasksAdapter.OnItemClickListener) {
+    fun setOnItemClickListener(listener: OnItemClickListener) {
         _listener = listener
     }
 
@@ -48,14 +48,17 @@ class TasksAdapter(): RecyclerView.Adapter<TasksAdapter.TasksViewHolder>() {
             }
             if(task.isBlocked){
                 binding.iconTaskState.setImageResource(R.drawable.ic_lock)
-            }
-            if(task.isActive){
-                binding.iconTaskState.setImageResource(R.drawable.ic_active)
-                binding.title.typeface = Typeface.DEFAULT_BOLD
-                binding.subtitle.typeface = Typeface.DEFAULT_BOLD
-            }
-            if(task.willOpenAt != null){
-                binding.iconTaskState.setImageResource(R.drawable.ic_clock)
+            } else {
+                if(task.isActive){
+                    binding.iconTaskState.setImageResource(R.drawable.ic_active)
+                    binding.title.typeface = Typeface.DEFAULT_BOLD
+                    binding.subtitle.typeface = Typeface.DEFAULT_BOLD
+                } else if(task.isOpened){
+                    binding.iconTaskState.setImageResource(R.drawable.ic_done)
+                }
+                if(task.willOpenAt != null){
+                    binding.iconTaskState.setImageResource(R.drawable.ic_clock)
+                }
             }
             binding.title.text = task.title
             binding.subtitle.text = task.subtitle

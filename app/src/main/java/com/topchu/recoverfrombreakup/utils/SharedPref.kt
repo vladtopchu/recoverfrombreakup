@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import com.topchu.recoverfrombreakup.utils.Constants.FILENAME_KEY
 import com.topchu.recoverfrombreakup.utils.Constants.FIRST_LAUNCH_KEY
 import com.topchu.recoverfrombreakup.utils.Constants.HINT_HIDE
+import com.topchu.recoverfrombreakup.utils.Constants.IS_CONTENT_BOUGHT
 import com.topchu.recoverfrombreakup.utils.Constants.LAST_OPENED_TASK
 import com.topchu.recoverfrombreakup.utils.Constants.TOKEN_KEY
 
@@ -23,6 +24,12 @@ class SharedPref(context: Context) {
 
     fun hideHint() {
         sharedPreferences.edit().putBoolean(HINT_HIDE, true).apply()
+    }
+
+    fun isContentBought() = sharedPreferences.getBoolean(IS_CONTENT_BOUGHT, false)
+
+    fun setContentBought() {
+        sharedPreferences.edit().putBoolean(IS_CONTENT_BOUGHT, true).apply()
     }
 
     fun getLastOpenedTask(): Int = sharedPreferences.getInt(LAST_OPENED_TASK, 0)

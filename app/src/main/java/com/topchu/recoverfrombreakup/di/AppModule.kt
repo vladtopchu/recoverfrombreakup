@@ -2,6 +2,7 @@ package com.topchu.recoverfrombreakup.di
 
 import android.app.Application
 import android.content.Context
+import androidx.navigation.NavOptions
 import androidx.room.Room
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -56,6 +57,15 @@ object AppModule {
     @Singleton
     @Provides
     fun provideFirebaseAuth() = Firebase.auth
+
+    @Singleton
+    @Provides
+    fun provideNavOptions() = NavOptions.Builder().apply {
+        setEnterAnim(R.anim.nav_default_enter_anim)
+        setExitAnim(R.anim.nav_default_exit_anim)
+        setPopEnterAnim(R.anim.nav_default_pop_enter_anim)
+        setPopExitAnim(R.anim.nav_default_pop_exit_anim)
+    }.build()
 
     @Singleton
     @Provides
