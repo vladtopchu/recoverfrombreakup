@@ -46,10 +46,12 @@ class MeditationFragment : Fragment() {
         sharedViewModel.playerState.observe(viewLifecycleOwner, {
           when(it) {
               MediaPlayerState.LOADING -> {
+                  Log.d("TESTTEST", "STATE LOADING")
                   if(binding.progressCircular.visibility == View.GONE)
                     binding.progressCircular.visibility = View.VISIBLE
               }
               MediaPlayerState.PLAYING, MediaPlayerState.IDLE -> {
+                  Log.d("TESTTEST", "STATE PLAYING/IDLE")
                   if(binding.progressCircular.visibility == View.VISIBLE)
                       binding.progressCircular.visibility = View.GONE
               }
@@ -58,7 +60,7 @@ class MeditationFragment : Fragment() {
 
         binding.play.setOnClickListener {
             if(sharedViewModel.playerState.value != MediaPlayerState.PLAYING) {
-                Log.d("TESTTEST", "STATE NOT PLAYING")
+                Log.d("TESTTEST", "CLICK: STATE NOT PLAYING")
                 binding.play.setImageResource(R.drawable.button_pause_meditation)
                 if(sharedViewModel.uri.value != uri) {
                     Log.d("TESTTEST", "?1")
@@ -68,11 +70,11 @@ class MeditationFragment : Fragment() {
                     sharedViewModel.startPlayer()
                 }
             } else if(sharedViewModel.playerState.value == MediaPlayerState.PLAYING) {
-                Log.d("TESTTEST", "STATE PLAYIN")
+                Log.d("TESTTEST", "CLICK: STATE PLAYING")
                 binding.play.setImageResource(R.drawable.button_play_meditation)
                 sharedViewModel.pausePlayer()
             } else {
-                Log.d("TESTTEST", "STATE WTF")
+                Log.d("TESTTEST", "CLICk: STATE WTF")
             }
         }
 

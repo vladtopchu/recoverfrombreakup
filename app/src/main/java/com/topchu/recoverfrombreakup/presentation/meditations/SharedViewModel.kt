@@ -22,6 +22,10 @@ class SharedViewModel (
         _uri.postValue(uri)
     }
 
+    fun clearPlayerUri() {
+        _uri.postValue(null)
+    }
+
     fun startPlayer() {
         _playerCommand.postValue(MediaPlayerCommand.START)
     }
