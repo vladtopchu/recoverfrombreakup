@@ -6,7 +6,7 @@
         android:gravity="center"/>
 
     <item
-        android:drawable="@drawable/ic_pause"
+        android:drawable="@drawable/ic_stop"
         android:gravity="center"
         android:width="60dp"
         android:height="60dp"/>

@@ -1,5 +1,6 @@
 package com.topchu.recoverfrombreakup.presentation.tasks
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -12,11 +13,13 @@ import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.topchu.recoverfrombreakup.R
 import com.topchu.recoverfrombreakup.data.local.daos.MeditationDao
 import com.topchu.recoverfrombreakup.data.local.daos.TaskDao
 import com.topchu.recoverfrombreakup.data.local.entities.TaskEntity
 import com.topchu.recoverfrombreakup.databinding.FragmentTasksBinding
 import com.topchu.recoverfrombreakup.di.ApplicationScope
+import com.topchu.recoverfrombreakup.presentation.MainActivity
 import com.topchu.recoverfrombreakup.utils.SharedPref
 import com.topchu.recoverfrombreakup.utils.toTimeObject
 import dagger.hilt.android.AndroidEntryPoint
@@ -77,6 +80,7 @@ class TasksFragment : Fragment() {
             setOnItemClickListener(object : TasksAdapter.OnItemClickListener {
                 override fun onItemClick(task: TaskEntity) {
                     if(task.isOpened){
+                        (requireActivity() as MainActivity).currentFragment = R.id.taskFragment
                         findNavController().navigate(TasksFragmentDirections.actionTasksFragmentToTaskFragment(task.id.toInt()), navOptions)
                     } else if(task.isBlocked) {
                         Toast.makeText(requireContext(), "Приобретите полную версию для доступа к данному дню", Toast.LENGTH_LONG).show()
@@ -118,5 +122,6 @@ class TasksFragment : Fragment() {
         super.onResume()
         flag = false
         viewModel.updateTasks()
+        recyclerViewAdapter.notifyDataSetChanged()
     }
 }

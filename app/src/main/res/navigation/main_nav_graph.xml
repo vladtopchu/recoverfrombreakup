@@ -17,12 +17,15 @@
         <action
             android:id="@+id/action_tasksFragment_to_taskFragment"
             app:destination="@id/taskFragment"/>
+        <action
+            android:id="@+id/action_tasksFragment_to_meditationsFragment"
+            app:destination="@id/meditationsFragment" />
 
     </fragment>
 
     <fragment
         android:id="@+id/taskFragment"
-        android:name="com.topchu.recoverfrombreakup.presentation.task.TaskFragment"
+        android:name="com.topchu.recoverfrombreakup.presentation.tasks.task.TaskFragment"
         android:label="TaskFragment">
 
         <argument

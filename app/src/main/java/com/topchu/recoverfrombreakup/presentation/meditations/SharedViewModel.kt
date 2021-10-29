@@ -1,43 +1,56 @@
 package com.topchu.recoverfrombreakup.presentation.meditations
 
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
-import com.topchu.recoverfrombreakup.data.local.daos.MeditationDao
-import com.topchu.recoverfrombreakup.data.local.daos.TaskDao
-import com.topchu.recoverfrombreakup.data.local.entities.MeditationEntity
-import com.topchu.recoverfrombreakup.data.local.entities.TaskEntity
-import com.topchu.recoverfrombreakup.di.ApplicationScope
+import com.topchu.recoverfrombreakup.utils.MediaPlayerCommand
 import com.topchu.recoverfrombreakup.utils.MediaPlayerState
 import com.topchu.recoverfrombreakup.utils.asLiveData
-import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-class ParentViewModel (
+class SharedViewModel (
 ) : ViewModel() {
 
-    private val _flag: MutableLiveData<MediaPlayerState> = MutableLiveData(MediaPlayerState.NOT_INITIALIZED)
-    val flag = _flag.asLiveData()
+    private val _playerCommand: MutableLiveData<MediaPlayerCommand> = MutableLiveData(MediaPlayerCommand.NOT_INITIALIZED)
+    val playerCommand = _playerCommand.asLiveData()
+
+    private val _playerState: MutableLiveData<MediaPlayerState> = MutableLiveData(MediaPlayerState.IDLE)
+    val playerState = _playerState.asLiveData()
 
     private val _uri: MutableLiveData<String> = MutableLiveData()
     val uri = _uri.asLiveData()
 
-    fun setUri(uri: String) {
+    fun setPlayerUri(uri: String) {
         _uri.postValue(uri)
     }
 
-    fun stop() {
-        _flag.postValue(MediaPlayerState.STOP)
+    fun startPlayer() {
+        _playerCommand.postValue(MediaPlayerCommand.START)
     }
 
-    fun reset() {
-        _flag.postValue(MediaPlayerState.RESET)
+    fun pausePlayer() {
+        _playerCommand.postValue(MediaPlayerCommand.PAUSE)
     }
 
-    fun release() {
-        _flag.postValue(MediaPlayerState.RELEASE)
+    fun stopPlayer() {
+        _playerCommand.postValue(MediaPlayerCommand.STOP)
+    }
+
+    fun resetPlayer() {
+        _playerCommand.postValue(MediaPlayerCommand.RESET)
+    }
+
+    fun statePlayerLoading() {
+        _playerState.postValue(MediaPlayerState.LOADING)
+    }
+
+    fun statePlayerPlaying() {
+        _playerState.postValue(MediaPlayerState.PLAYING)
+    }
+
+    fun statePlayerReleased() {
+        _playerState.postValue(MediaPlayerState.IDLE)
+    }
+
+    fun statePlayerPaused() {
+        _playerState.postValue(MediaPlayerState.PAUSED)
     }
 }

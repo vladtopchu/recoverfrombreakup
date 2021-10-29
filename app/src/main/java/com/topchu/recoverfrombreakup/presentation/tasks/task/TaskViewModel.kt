@@ -1,10 +1,8 @@
-package com.topchu.recoverfrombreakup.presentation.task
+package com.topchu.recoverfrombreakup.presentation.tasks.task
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
-import com.topchu.recoverfrombreakup.data.local.daos.MeditationDao
 import com.topchu.recoverfrombreakup.data.local.daos.TaskDao
 import com.topchu.recoverfrombreakup.data.local.entities.TaskEntity
 import com.topchu.recoverfrombreakup.di.ApplicationScope

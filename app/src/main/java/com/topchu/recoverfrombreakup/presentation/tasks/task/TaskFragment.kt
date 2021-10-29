@@ -1,4 +1,4 @@
-package com.topchu.recoverfrombreakup.presentation.task
+package com.topchu.recoverfrombreakup.presentation.tasks.task
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -9,7 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.topchu.recoverfrombreakup.databinding.FragmentTaskBinding
-import com.topchu.recoverfrombreakup.presentation.tasks.TasksViewModel
+import com.topchu.recoverfrombreakup.utils.ParagraphAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

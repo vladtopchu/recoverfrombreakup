@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -29,6 +30,9 @@ class StartFragment : Fragment() {
 
     private lateinit var launcher: ActivityResultLauncher<Intent>
 
+    @Inject
+    lateinit var navOptions: NavOptions
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -40,7 +44,7 @@ class StartFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.toWelcomeFragment.setOnClickListener {
-            findNavController().navigate(R.id.welcomeFragment)
+            findNavController().navigate(R.id.welcomeFragment, null, navOptions)
         }
     }
 

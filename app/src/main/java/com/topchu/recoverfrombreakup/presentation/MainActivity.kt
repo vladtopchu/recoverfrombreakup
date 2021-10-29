@@ -4,6 +4,8 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.view.animation.Animation
+import android.view.animation.ScaleAnimation
 import android.widget.Toast
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
@@ -30,7 +32,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
 
-    private var currentFragment = R.id.tasksFragment
+    var currentFragment = R.id.tasksFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,16 +47,15 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         navController = findNavController(R.id.nav_host_main)
-        navController.navigate(R.id.tasksFragment)
-
-
 
         if(!sharedPref.isContentBought()){
             binding.buyContent.visibility = View.VISIBLE
             binding.buyContent.setOnClickListener {
-                navController.navigate(R.id.buyFragment)
+                navController.navigate(R.id.buyFragment, null, navOptions)
             }
         }
+
+        activateTasksButton()
 
         binding.bottomNav.toTasks.setOnClickListener {
             toggleFragment(R.id.tasksFragment)
@@ -65,27 +66,91 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+        if(navController.currentDestination?.id != currentFragment) {
+            when(navController.currentDestination?.id){
+                R.id.tasksFragment -> {
+                    activateTasksButton()
+                    deactivateMeditationsButton()
+                }
+                R.id.meditationsFragment -> {
+                    activateMeditationsButton()
+                    deactivateTasksButton()
+                }
+            }
+            currentFragment = navController.currentDestination?.id!!
+        }
+    }
+
     private fun toggleFragment(fragmentId: Int) {
         if(currentFragment != fragmentId){
             when(fragmentId){
                 R.id.tasksFragment -> {
-                    binding.bottomNav.toTasksImage.setImageResource(R.drawable.ic_tasks_active)
-                    binding.bottomNav.toTasksName.setTextAppearance(R.style.bottomNavTextActive)
-                    binding.bottomNav.toMeditationsImage.setImageResource(R.drawable.ic_meditations)
-                    binding.bottomNav.toMeditationsName.setTextAppearance(R.style.bottomNavTextInactive)
-                    currentFragment = fragmentId
-                    navController.navigate(fragmentId, null, navOptions)
+                    activateTasksButton()
+                    deactivateMeditationsButton()
                 }
                 R.id.meditationsFragment -> {
-                    binding.bottomNav.toMeditationsImage.setImageResource(R.drawable.ic_meditations_active)
-                    binding.bottomNav.toMeditationsName.setTextAppearance(R.style.bottomNavTextActive)
-                    binding.bottomNav.toTasksImage.setImageResource(R.drawable.ic_tasks)
-                    binding.bottomNav.toTasksName.setTextAppearance(R.style.bottomNavTextInactive)
-                    currentFragment = fragmentId
-                    navController.navigate(fragmentId, null, navOptions)
+                    activateMeditationsButton()
+                    deactivateTasksButton()
                 }
             }
+            navController.popBackStack(currentFragment, true)
+            currentFragment = fragmentId
+            navController.navigate(fragmentId, null, navOptions)
         }
+    }
+
+    private fun activateTasksButton() {
+        binding.bottomNav.toTasksImage.setImageResource(R.drawable.ic_tasks_active)
+        binding.bottomNav.toTasksImage.startAnimation(
+            ScaleAnimation(
+                1f, 1.5f, 1f, 1.5f,
+                Animation.RELATIVE_TO_SELF, 0.5f,
+                Animation.RELATIVE_TO_SELF, 0f).apply {
+                    fillAfter = true
+                    duration = 400
+            })
+        binding.bottomNav.toTasksName.setTextAppearance(R.style.bottomNavTextActive)
+    }
+
+    private fun deactivateTasksButton() {
+        binding.bottomNav.toTasksImage.setImageResource(R.drawable.ic_tasks)
+        binding.bottomNav.toTasksImage.startAnimation(
+            ScaleAnimation(
+                1.5f, 1f, 1.5f, 1f,
+                Animation.RELATIVE_TO_SELF, 0f,
+                Animation.RELATIVE_TO_SELF, 0f).apply {
+                fillAfter = true
+                duration = 400
+            })
+        binding.bottomNav.toTasksName.setTextAppearance(R.style.bottomNavTextInactive)
+    }
+
+    private fun activateMeditationsButton() {
+        binding.bottomNav.toMeditationsImage.setImageResource(R.drawable.ic_meditations_active)
+        binding.bottomNav.toMeditationsImage.startAnimation(
+            ScaleAnimation(
+                1f, 1.5f, 1f, 1.5f,
+                Animation.RELATIVE_TO_SELF, 0.5f,
+                Animation.RELATIVE_TO_SELF, 0f).apply {
+                fillAfter = true
+                duration = 400
+            })
+        binding.bottomNav.toMeditationsName.setTextAppearance(R.style.bottomNavTextActive)
+    }
+
+    private fun deactivateMeditationsButton() {
+        binding.bottomNav.toMeditationsImage.setImageResource(R.drawable.ic_meditations)
+        binding.bottomNav.toMeditationsImage.startAnimation(
+            ScaleAnimation(
+                1.5f, 1f, 1.5f, 1f,
+                Animation.RELATIVE_TO_SELF, 0f,
+                Animation.RELATIVE_TO_SELF, 0f).apply {
+                fillAfter = true
+                duration = 400
+            })
+        binding.bottomNav.toMeditationsName.setTextAppearance(R.style.bottomNavTextInactive)
     }
 
     fun hideBuyButton() {

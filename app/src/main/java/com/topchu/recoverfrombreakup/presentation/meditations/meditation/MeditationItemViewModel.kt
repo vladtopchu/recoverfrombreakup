@@ -3,11 +3,8 @@ package com.topchu.recoverfrombreakup.presentation.meditations
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
 import com.topchu.recoverfrombreakup.data.local.daos.MeditationDao
-import com.topchu.recoverfrombreakup.data.local.daos.TaskDao
 import com.topchu.recoverfrombreakup.data.local.entities.MeditationEntity
-import com.topchu.recoverfrombreakup.data.local.entities.TaskEntity
 import com.topchu.recoverfrombreakup.di.ApplicationScope
 import com.topchu.recoverfrombreakup.utils.asLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,7 +13,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class MeditationViewModel @Inject constructor (
+class MeditationItemViewModel @Inject constructor (
     private val meditationDao: MeditationDao,
     @ApplicationScope private val applicationScope: CoroutineScope,
     savedStateHandle: SavedStateHandle
@@ -24,6 +21,9 @@ class MeditationViewModel @Inject constructor (
 
     private val _meditation: MutableLiveData<MeditationEntity> = MutableLiveData()
     val meditation = _meditation.asLiveData()
+
+    private val _isPlayClicked: MutableLiveData<Boolean> = MutableLiveData(false)
+    val isPlayClicked = _isPlayClicked.asLiveData()
 
     init {
         savedStateHandle.get<Int>("meditationId")?.let { meditationId ->
@@ -34,4 +34,7 @@ class MeditationViewModel @Inject constructor (
         }
     }
 
+    fun setIsPlayClicked(state: Boolean) {
+        _isPlayClicked.postValue(state)
+    }
 }

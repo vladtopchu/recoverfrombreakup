@@ -1,39 +1,29 @@
 package com.topchu.recoverfrombreakup.presentation.meditations
 
-import android.content.Intent
+import android.media.MediaPlayer
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.android.gms.common.api.ApiException
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.GoogleAuthProvider
-import com.topchu.recoverfrombreakup.R
-import com.topchu.recoverfrombreakup.data.local.daos.MeditationDao
-import com.topchu.recoverfrombreakup.data.local.daos.TaskDao
-import com.topchu.recoverfrombreakup.databinding.FragmentAuthBinding
 import com.topchu.recoverfrombreakup.databinding.FragmentMeditationsBinding
-import com.topchu.recoverfrombreakup.databinding.FragmentTasksBinding
-import com.topchu.recoverfrombreakup.presentation.tasks.TasksViewModel
+import com.topchu.recoverfrombreakup.utils.MediaPlayerCommand
+import com.topchu.recoverfrombreakup.utils.MediaPlayerState
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class MeditationsFragment : Fragment() {
     private var _binding: FragmentMeditationsBinding? = null
     private val binding get() = _binding!!
 
-
     private val viewModel: MeditationsViewModel by viewModels()
+    private val sharedViewModel: SharedViewModel by activityViewModels()
+
+    private lateinit var viewPagerAdapter: MeditationsAdapter
+
+    var mediaPlayer: MediaPlayer? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,9 +36,73 @@ class MeditationsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewPagerAdapter = MeditationsAdapter(requireActivity())
+
         viewModel.meditations.observe(viewLifecycleOwner) {
-            it.forEach { meditation ->
-                Log.d("RFB_TEST", meditation.toString())
+            viewPagerAdapter.meditationsList = it
+            binding.viewPager.adapter = viewPagerAdapter
+        }
+
+        sharedViewModel.playerCommand.observe(viewLifecycleOwner, {
+            when(it) {
+                MediaPlayerCommand.START -> {
+                    when(sharedViewModel.playerState.value) {
+                        MediaPlayerState.IDLE -> {
+                            sharedViewModel.statePlayerLoading()
+                            mediaPlayer?.prepareAsync()
+                        }
+                        MediaPlayerState.PAUSED -> {
+                            sharedViewModel.statePlayerPlaying()
+                            mediaPlayer?.start()
+                        }
+                        else -> {
+                            throw Exception("WHAT THE ACTUAL FUCK")
+                        }
+                    }
+                }
+                MediaPlayerCommand.STOP -> {
+                    sharedViewModel.statePlayerReleased()
+                    mediaPlayer?.stop()
+                }
+                MediaPlayerCommand.RELEASE -> {
+                    sharedViewModel.statePlayerReleased()
+                    mediaPlayer?.release()
+                }
+                MediaPlayerCommand.RESET -> {
+                    sharedViewModel.statePlayerReleased()
+                    mediaPlayer?.reset()
+                }
+                MediaPlayerCommand.PAUSE -> {
+                    sharedViewModel.statePlayerPaused()
+                    mediaPlayer?.pause()
+                }
+            }
+        })
+
+        sharedViewModel.uri.observe(viewLifecycleOwner, {
+            if(it != null) {
+                sharedViewModel.statePlayerLoading()
+                mediaPlayer?.setDataSource(it)
+                mediaPlayer?.prepareAsync()
+            }
+        })
+
+
+    }
+
+    override fun onPause() {
+        super.onPause()
+        sharedViewModel.statePlayerReleased()
+        mediaPlayer?.release()
+        mediaPlayer = null
+    }
+
+    override fun onResume() {
+        super.onResume()
+        mediaPlayer = MediaPlayer().apply {
+            setOnPreparedListener {
+                sharedViewModel.statePlayerPlaying()
+                it.start()
             }
         }
     }

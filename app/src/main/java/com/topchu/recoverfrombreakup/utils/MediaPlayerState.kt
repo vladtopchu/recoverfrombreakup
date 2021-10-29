@@ -1,9 +1,8 @@
 package com.topchu.recoverfrombreakup.utils
 
-enum class MediaPlayerCommand {
-    NOT_INITIALIZED,
-    STOP,
-    RELEASE,
-    RESET,
-    PAUSE
+enum class MediaPlayerState {
+    LOADING,
+    PLAYING,
+    IDLE,
+    PAUSED
 }
