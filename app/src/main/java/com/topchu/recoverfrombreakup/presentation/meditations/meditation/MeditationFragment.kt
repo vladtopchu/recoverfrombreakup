@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.topchu.recoverfrombreakup.R
-import com.topchu.recoverfrombreakup.databinding.ItemMeditationBinding
+import com.topchu.recoverfrombreakup.databinding.FragmentMeditationBinding
 import com.topchu.recoverfrombreakup.presentation.meditations.MeditationItemViewModel
 import com.topchu.recoverfrombreakup.presentation.meditations.SharedViewModel
 import com.topchu.recoverfrombreakup.utils.MediaPlayerState
@@ -17,7 +17,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MeditationFragment : Fragment() {
-    private var _binding: ItemMeditationBinding? = null
+    private var _binding: FragmentMeditationBinding? = null
     private val binding get() = _binding!!
 
     private val itemViewModel: MeditationItemViewModel by viewModels()
@@ -29,7 +29,7 @@ class MeditationFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = ItemMeditationBinding.inflate(inflater, container, false)
+        _binding = FragmentMeditationBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -39,7 +39,15 @@ class MeditationFragment : Fragment() {
         itemViewModel.meditation.observe(viewLifecycleOwner, {
             if(it != null){
                 binding.title.text = it.name
-                uri = it.uri
+                if(it.isOpened && !it.isBlocked) {
+                    binding.hint.text = "Для достижения эффекта, медитации рекомендуется слушать непрерывно"
+                    binding.player.visibility = View.VISIBLE
+                    uri = it.uri
+                } else {
+                    binding.hint.text = "Чтобы получить доступ к данной медитации, откройте соответствующий день или приобретите полную версию"
+                    binding.locked.visibility = View.VISIBLE
+                    binding.parentView.setBackgroundResource(R.drawable.background_meditation_locked)
+                }
             }
         })
 

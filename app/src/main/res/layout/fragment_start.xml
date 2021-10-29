@@ -4,25 +4,55 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:text="Как пережить расставание за 21 день"
+    <ImageView
         android:layout_width="match_parent"
-        android:gravity="center"
-        android:layout_height="wrap_content"/>
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_radial_background" />
 
     <TextView
-        android:layout_width="match_parent"
-        android:gravity="center"
-        android:layout_height="wrap_content"
-        android:text="Вступительный текст"
-        android:layout_above="@id/to_welcome_fragment"/>
-
-    <Button
-        android:id="@+id/to_welcome_fragment"
+        android:id="@+id/tutorial_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Далее"
+        android:layout_marginTop="40dp"
+        android:text="Как пережить расставание?"
+        android:layout_centerHorizontal="true"
+        style="@style/tutorial_title"/>
+
+    <TextView
+        android:id="@+id/tutorial_subtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="21 шаг к новой жизни"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/tutorial_title"
+        style="@style/tutorial_subtitle"/>
+
+    <TextView
+        android:id="@+id/tutorial_text"
+        style="@style/recycler_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/to_welcome_fragment"
+        android:layout_marginHorizontal="25dp"
+        android:gravity="center"
+        android:text="@string/tutorial_text"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/to_welcome_fragment"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"/>
+        android:layout_width="250dp"
+        android:layout_centerHorizontal="true"
+        android:layout_height="50dp"
+        style="@style/buttonPrimary"
+        android:background="@drawable/button_primary"
+        android:gravity="center"
+        android:paddingTop="8dp"
+        android:paddingBottom="15dp"
+        android:layout_marginVertical="18dp"
+        android:text="ДАЛЕЕ"
+        />
 
 </RelativeLayout>

@@ -101,55 +101,23 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun activateTasksButton() {
+    fun activateTasksButton() {
         binding.bottomNav.toTasksImage.setImageResource(R.drawable.ic_tasks_active)
-        binding.bottomNav.toTasksImage.startAnimation(
-            ScaleAnimation(
-                1f, 1.5f, 1f, 1.5f,
-                Animation.RELATIVE_TO_SELF, 0.5f,
-                Animation.RELATIVE_TO_SELF, 0f).apply {
-                    fillAfter = true
-                    duration = 400
-            })
         binding.bottomNav.toTasksName.setTextAppearance(R.style.bottomNavTextActive)
     }
 
-    private fun deactivateTasksButton() {
+    fun deactivateTasksButton() {
         binding.bottomNav.toTasksImage.setImageResource(R.drawable.ic_tasks)
-        binding.bottomNav.toTasksImage.startAnimation(
-            ScaleAnimation(
-                1.5f, 1f, 1.5f, 1f,
-                Animation.RELATIVE_TO_SELF, 0f,
-                Animation.RELATIVE_TO_SELF, 0f).apply {
-                fillAfter = true
-                duration = 400
-            })
         binding.bottomNav.toTasksName.setTextAppearance(R.style.bottomNavTextInactive)
     }
 
-    private fun activateMeditationsButton() {
+    fun activateMeditationsButton() {
         binding.bottomNav.toMeditationsImage.setImageResource(R.drawable.ic_meditations_active)
-        binding.bottomNav.toMeditationsImage.startAnimation(
-            ScaleAnimation(
-                1f, 1.5f, 1f, 1.5f,
-                Animation.RELATIVE_TO_SELF, 0.5f,
-                Animation.RELATIVE_TO_SELF, 0f).apply {
-                fillAfter = true
-                duration = 400
-            })
         binding.bottomNav.toMeditationsName.setTextAppearance(R.style.bottomNavTextActive)
     }
 
-    private fun deactivateMeditationsButton() {
+    fun deactivateMeditationsButton() {
         binding.bottomNav.toMeditationsImage.setImageResource(R.drawable.ic_meditations)
-        binding.bottomNav.toMeditationsImage.startAnimation(
-            ScaleAnimation(
-                1.5f, 1f, 1.5f, 1f,
-                Animation.RELATIVE_TO_SELF, 0f,
-                Animation.RELATIVE_TO_SELF, 0f).apply {
-                fillAfter = true
-                duration = 400
-            })
         binding.bottomNav.toMeditationsName.setTextAppearance(R.style.bottomNavTextInactive)
     }
 

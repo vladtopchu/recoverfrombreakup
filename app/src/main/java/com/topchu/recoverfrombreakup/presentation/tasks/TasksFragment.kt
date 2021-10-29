@@ -85,7 +85,7 @@ class TasksFragment : Fragment() {
                     } else if(task.isBlocked) {
                         Toast.makeText(requireContext(), "Приобретите полную версию для доступа к данному дню", Toast.LENGTH_LONG).show()
                     } else if(task.willOpenAt != null) {
-                        Toast.makeText(requireContext(), task.willOpenAt.toTimeObject().toString() , Toast.LENGTH_LONG).show()
+                        Toast.makeText(requireContext(), task.willOpenAt.toTimeObject().toString(), Toast.LENGTH_LONG).show()
                     } else {
                         Toast.makeText(requireContext(), "День откроется после прохождения предыдущего", Toast.LENGTH_LONG).show()
                     }

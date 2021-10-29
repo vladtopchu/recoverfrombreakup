@@ -5,13 +5,21 @@
       <map>
         <entry key="..\:/dev/recoverfrombreakup/app/src/main/res/drawable-v24/ic_meditation.xml" value="0.24166666666666667" />
         <entry key="..\:/dev/recoverfrombreakup/app/src/main/res/drawable-v24/ic_meditation_active.xml" value="0.22135416666666666" />
+        <entry key="..\:/dev/recoverfrombreakup/app/src/main/res/drawable/background_gradient.xml" value="0.22916666666666666" />
+        <entry key="..\:/dev/recoverfrombreakup/app/src/main/res/drawable/background_meditation_locked.xml" value="0.22916666666666666" />
+        <entry key="..\:/dev/recoverfrombreakup/app/src/main/res/drawable/button_play_meditation.xml" value="0.22916666666666666" />
         <entry key="..\:/dev/recoverfrombreakup/app/src/main/res/drawable/button_stop_meditation.xml" value="0.22135416666666666" />
         <entry key="..\:/dev/recoverfrombreakup/app/src/main/res/drawable/ic_active.xml" value="0.20572916666666666" />
         <entry key="..\:/dev/recoverfrombreakup/app/src/main/res/drawable/ic_clock.xml" value="0.20572916666666666" />
         <entry key="..\:/dev/recoverfrombreakup/app/src/main/res/drawable/ic_launcher_background.xml" value="0.20572916666666666" />
         <entry key="..\:/dev/recoverfrombreakup/app/src/main/res/drawable/ic_launcher_foreground.xml" value="0.22135416666666666" />
         <entry key="..\:/dev/recoverfrombreakup/app/src/main/res/drawable/ic_lock.xml" value="0.20572916666666666" />
+        <entry key="..\:/dev/recoverfrombreakup/app/src/main/res/drawable/ic_meditation_lock.xml" value="0.22916666666666666" />
+        <entry key="..\:/dev/recoverfrombreakup/app/src/main/res/drawable/ic_pink_ring.xml" value="0.22916666666666666" />
+        <entry key="..\:/dev/recoverfrombreakup/app/src/main/res/drawable/ic_play.xml" value="0.22916666666666666" />
+        <entry key="..\:/dev/recoverfrombreakup/app/src/main/res/drawable/ic_radial_background.xml" value="0.22916666666666666" />
         <entry key="..\:/dev/recoverfrombreakup/app/src/main/res/drawable/ic_tasks_background.xml" value="0.20572916666666666" />
+        <entry key="..\:/dev/recoverfrombreakup/app/src/main/res/drawable/pink_button.xml" value="0.22916666666666666" />
         <entry key="..\:/dev/recoverfrombreakup/app/src/main/res/drawable/pink_ring.xml" value="0.23229166666666667" />
         <entry key="..\:/dev/recoverfrombreakup/app/src/main/res/drawable/play_ring.xml" value="0.23229166666666667" />
         <entry key="..\:/dev/recoverfrombreakup/app/src/main/res/layout/activity_auth.xml" value="0.20520833333333333" />
@@ -27,7 +35,7 @@
         <entry key="..\:/dev/recoverfrombreakup/app/src/main/res/layout/fragment_graph.xml" value="0.36666666666666664" />
         <entry key="..\:/dev/recoverfrombreakup/app/src/main/res/layout/fragment_meditations.xml" value="0.36666666666666664" />
         <entry key="..\:/dev/recoverfrombreakup/app/src/main/res/layout/fragment_start.xml" value="0.19583333333333333" />
-        <entry key="..\:/dev/recoverfrombreakup/app/src/main/res/layout/fragment_task.xml" value="0.20520833333333333" />
+        <entry key="..\:/dev/recoverfrombreakup/app/src/main/res/layout/fragment_task.xml" value="0.33" />
         <entry key="..\:/dev/recoverfrombreakup/app/src/main/res/layout/fragment_tasks.xml" value="0.36666666666666664" />
         <entry key="..\:/dev/recoverfrombreakup/app/src/main/res/layout/fragment_welcome.xml" value="0.19583333333333333" />
         <entry key="..\:/dev/recoverfrombreakup/app/src/main/res/layout/item_meditation.xml" value="0.36666666666666664" />

@@ -7,4 +7,6 @@ data class TimeObject(
     val hour: Int,
     val minute: Int,
     val second: Int
-)
+) {
+    override fun toString(): String = "Откроется $day/$month/$year в $hour:$minute:$second"
+}

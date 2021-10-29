@@ -7,7 +7,14 @@
     <fragment
         android:id="@+id/meditationsFragment"
         android:name="com.topchu.recoverfrombreakup.presentation.meditations.MeditationsFragment"
-        android:label="Медитации" />
+        android:label="Медитации">
+
+        <argument
+            android:name="meditationId"
+            app:argType="integer"
+            android:defaultValue="-1"/>
+
+    </fragment>
 
     <fragment
         android:id="@+id/tasksFragment"
@@ -33,8 +40,12 @@
             app:argType="integer"
             android:defaultValue="0"
             />
+        <action
+            android:id="@+id/action_taskFragment_to_meditationsFragment"
+            app:destination="@id/meditationsFragment" />
 
     </fragment>
+
     <fragment
         android:id="@+id/buyFragment"
         android:name="com.topchu.recoverfrombreakup.presentation.buy.BuyFragment"

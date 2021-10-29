@@ -27,9 +27,9 @@ class TaskViewModel @Inject constructor (
                 val candidate = taskDao.getTaskById(taskId)
                 _task.postValue(candidate)
                 if(candidate.isActive){
-                    taskDao.makeTaskUnactive(taskId)
+                    taskDao.makeTaskInactive(taskId)
                     if(taskId != 21){
-                        taskDao.setOpeningTimer(taskId+1, System.currentTimeMillis() + 30000)
+                        taskDao.setOpeningTimer(taskId+1, System.currentTimeMillis() + 24 * 3600000)
                     }
                 }
             }

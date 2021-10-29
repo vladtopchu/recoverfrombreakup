@@ -6,11 +6,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavOptions
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.topchu.recoverfrombreakup.databinding.FragmentTaskBinding
+import com.topchu.recoverfrombreakup.presentation.MainActivity
 import com.topchu.recoverfrombreakup.utils.ParagraphAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class TaskFragment : Fragment() {
@@ -18,6 +22,9 @@ class TaskFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel: TaskViewModel by viewModels()
+
+    @Inject
+    lateinit var navOptions: NavOptions
 
     private lateinit var recyclerViewAdapter: ParagraphAdapter
 
@@ -33,9 +40,6 @@ class TaskFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        val decoration = DividerItemDecoration(
-            requireContext().applicationContext, DividerItemDecoration.VERTICAL)
-        binding.recyclerView.addItemDecoration(decoration)
         recyclerViewAdapter = ParagraphAdapter()
         binding.recyclerView.adapter = recyclerViewAdapter
 
@@ -51,7 +55,15 @@ class TaskFragment : Fragment() {
                 })
                 recyclerViewAdapter.notifyDataSetChanged()
                 if(it.hasMeditation){
+                    val medId = it.meditationId
                     binding.toMeditation.visibility = View.VISIBLE
+                    binding.toMeditation.setOnClickListener {
+                        if (medId != null) {
+                            (requireActivity() as MainActivity).deactivateTasksButton()
+                            (requireActivity() as MainActivity).activateMeditationsButton()
+                            findNavController().navigate(TaskFragmentDirections.actionTaskFragmentToMeditationsFragment(medId.toInt()), navOptions)
+                        }
+                    }
                 }
             }
         })

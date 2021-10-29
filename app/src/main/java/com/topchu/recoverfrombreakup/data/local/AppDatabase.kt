@@ -127,11 +127,11 @@ abstract class AppDatabase : RoomDatabase() {
                 meditationDao.insertMeditation(MeditationEntity(
                     "Очищение водой\n(День 1)",
                     "https://firebasestorage.googleapis.com/v0/b/recoveryapp-eae12.appspot.com/o/meditation_a.mp3?alt=media&token=d69d10af-b4f7-43b8-b833-3df6f336e940",
-                    true))
+                    true, false))
 
                 meditationDao.insertMeditation(MeditationEntity("Снятие утренней тревожности\n(День 2)",
                     "https://firebasestorage.googleapis.com/v0/b/recoveryapp-eae12.appspot.com/o/meditation_b.mp3?alt=media&token=5072dbd2-a648-4af6-bdbb-b617d46eb0cc",
-                    false))
+                    false, false))
 
                 meditationDao.insertMeditation(MeditationEntity("Привлечение деятельной энергии\n(День 12)",
                     "https://firebasestorage.googleapis.com/v0/b/recoveryapp-eae12.appspot.com/o/meditation_c.mp3?alt=media&token=a7920eaf-87fd-4346-b3b4-6af35468450e",

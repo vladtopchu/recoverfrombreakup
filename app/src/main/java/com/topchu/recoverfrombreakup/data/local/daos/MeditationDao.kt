@@ -18,7 +18,7 @@ interface MeditationDao {
     @Query("UPDATE meditations SET is_opened = 1 WHERE id = :id")
     suspend fun openMeditationById(id: Int)
 
-    @Query("UPDATE meditations SET is_blocked = 0")
+    @Query("UPDATE meditations SET is_blocked = 0 WHERE is_blocked = 1")
     suspend fun unlockMeditations()
 
     @Insert

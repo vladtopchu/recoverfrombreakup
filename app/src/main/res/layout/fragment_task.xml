@@ -1,19 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true">
 
-    <ProgressBar
-        android:id="@+id/progress_circular"
-        android:layout_width="wrap_content"
+    <ImageView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"/>
+        android:src="@drawable/title_roof"
+        android:adjustViewBounds="true"/>
 
     <ScrollView
         android:id="@+id/content"
         android:visibility="gone"
+        tools:visibility="visible"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -23,34 +25,66 @@
             android:orientation="vertical"
             android:gravity="center|top">
 
-            <TextView
-                android:id="@+id/title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="title"
-                android:textSize="22sp"/>
-
-            <TextView
-                android:id="@+id/subtitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="title"
-                android:textSize="19sp"/>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_view"
-                android:nestedScrollingEnabled="false"
+            <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-
-            <Button
-                android:id="@+id/to_meditation"
-                android:visibility="gone"
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Прослушать медитацию"/>
-        </LinearLayout>
+                android:src="@drawable/title_roof"
+                android:alpha="0"
+                android:adjustViewBounds="true"/>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center|top"
+                android:background="@color/super_light_gray">
+
+                <TextView
+                    android:id="@+id/title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="title"
+                    android:layout_marginTop="10dp"
+                    style="@style/task_title"/>
+
+                <TextView
+                    android:id="@+id/subtitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="subtitle"
+                    android:layout_marginTop="5dp"
+                    style="@style/bottomNavTextInactive"/>
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="15dp">
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recycler_view"
+                        android:nestedScrollingEnabled="false"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+                </FrameLayout>
+
+                <TextView
+                    android:id="@+id/to_meditation"
+                    android:visibility="gone"
+                    tools:visibility="visible"
+                    android:background="@drawable/button_primary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/buttonPrimary"
+                    android:layout_marginTop="5dp"
+                    android:text="Прослушать медитацию"/>
+
+            </LinearLayout>
+        </LinearLayout>
     </ScrollView>
+
+    <ProgressBar
+        android:id="@+id/progress_circular"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"/>
 
 </RelativeLayout>

@@ -18,7 +18,7 @@ interface TaskDao {
     suspend fun openTask(id: Int)
 
     @Query("UPDATE tasks SET is_active = 0 WHERE id = :id")
-    suspend fun makeTaskUnactive(id: Int)
+    suspend fun makeTaskInactive(id: Int)
 
     @Query("UPDATE tasks SET will_open_at = :timestamp  WHERE id = :id")
     suspend fun setOpeningTimer(id: Int, timestamp: Long)
