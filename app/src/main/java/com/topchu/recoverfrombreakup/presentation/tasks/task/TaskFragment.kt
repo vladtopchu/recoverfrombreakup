@@ -10,6 +10,7 @@ import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.topchu.recoverfrombreakup.R
 import com.topchu.recoverfrombreakup.databinding.FragmentTaskBinding
 import com.topchu.recoverfrombreakup.presentation.MainActivity
 import com.topchu.recoverfrombreakup.utils.ParagraphAdapter
@@ -59,8 +60,8 @@ class TaskFragment : Fragment() {
                     binding.toMeditation.visibility = View.VISIBLE
                     binding.toMeditation.setOnClickListener {
                         if (medId != null) {
-                            (requireActivity() as MainActivity).deactivateTasksButton()
-                            (requireActivity() as MainActivity).activateMeditationsButton()
+                            (requireActivity() as MainActivity).toggleButton(R.id.meditationsFragment)
+//                            (requireActivity() as MainActivity).currentFragment = R.id.meditationsFragment
                             findNavController().navigate(TaskFragmentDirections.actionTaskFragmentToMeditationsFragment(medId.toInt()), navOptions)
                         }
                     }

@@ -2,7 +2,8 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/tasksFragment">
+    app:startDestination="@id/tasksFragment"
+    >
 
     <fragment
         android:id="@+id/meditationsFragment"
@@ -50,5 +51,13 @@
         android:id="@+id/buyFragment"
         android:name="com.topchu.recoverfrombreakup.presentation.buy.BuyFragment"
         android:label="BuyFragment" />
+    <fragment
+        android:id="@+id/meditationFragment"
+        android:name="com.topchu.recoverfrombreakup.presentation.meditations.meditation.MeditationFragment"
+        android:label="MeditationFragment" />
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.topchu.recoverfrombreakup.presentation.profile.ProfileFragment"
+        android:label="ProfileFragment" />
 
 </navigation>

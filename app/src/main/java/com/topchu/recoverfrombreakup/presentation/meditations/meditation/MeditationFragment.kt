@@ -1,5 +1,6 @@
 package com.topchu.recoverfrombreakup.presentation.meditations.meditation
 
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -23,7 +24,7 @@ class MeditationFragment : Fragment() {
     private val itemViewModel: MeditationItemViewModel by viewModels()
     private val sharedViewModel: SharedViewModel by activityViewModels()
 
-    private lateinit var uri: String
+    private var uri: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,6 +44,7 @@ class MeditationFragment : Fragment() {
                     binding.hint.text = "Для достижения эффекта, медитации рекомендуется слушать непрерывно"
                     binding.player.visibility = View.VISIBLE
                     uri = it.uri
+                    sharedViewModel.setPlayerUri(uri!!)
                 } else {
                     binding.hint.text = "Чтобы получить доступ к данной медитации, откройте соответствующий день или приобретите полную версию"
                     binding.locked.visibility = View.VISIBLE
@@ -52,49 +54,54 @@ class MeditationFragment : Fragment() {
         })
 
         sharedViewModel.playerState.observe(viewLifecycleOwner, {
-          when(it) {
-              MediaPlayerState.LOADING -> {
-                  Log.d("TESTTEST", "STATE LOADING")
-                  if(binding.progressCircular.visibility == View.GONE)
+            if(it == MediaPlayerState.LOADING) {
+                if(binding.progressCircular.visibility == View.GONE)
                     binding.progressCircular.visibility = View.VISIBLE
-              }
-              MediaPlayerState.PLAYING, MediaPlayerState.IDLE -> {
-                  Log.d("TESTTEST", "STATE PLAYING/IDLE")
-                  if(binding.progressCircular.visibility == View.VISIBLE)
-                      binding.progressCircular.visibility = View.GONE
-              }
-          }
+            } else {
+                if(binding.progressCircular.visibility == View.VISIBLE)
+                    binding.progressCircular.visibility = View.GONE
+            }
         })
 
         binding.play.setOnClickListener {
-            if(sharedViewModel.playerState.value != MediaPlayerState.PLAYING) {
-                Log.d("TESTTEST", "CLICK: STATE NOT PLAYING")
-                binding.play.setImageResource(R.drawable.button_pause_meditation)
-                if(sharedViewModel.uri.value != uri) {
-                    Log.d("TESTTEST", "?1")
-                    sharedViewModel.setPlayerUri(uri)
-                } else {
-                    Log.d("TESTTEST", "?2")
+            when(sharedViewModel.playerState.value) {
+                MediaPlayerState.URI_SET, MediaPlayerState.PAUSED, MediaPlayerState.READY -> {
+                    binding.play.setImageResource(R.drawable.button_pause_meditation)
                     sharedViewModel.startPlayer()
                 }
-            } else if(sharedViewModel.playerState.value == MediaPlayerState.PLAYING) {
-                Log.d("TESTTEST", "CLICK: STATE PLAYING")
-                binding.play.setImageResource(R.drawable.button_play_meditation)
-                sharedViewModel.pausePlayer()
-            } else {
-                Log.d("TESTTEST", "CLICk: STATE WTF")
+                MediaPlayerState.PLAYING -> {
+                    binding.play.setImageResource(R.drawable.button_play_meditation)
+                    sharedViewModel.pausePlayer()
+                }
+                else -> {
+                    throw Exception("Illegal state!: ".plus(sharedViewModel.playerState.value.toString()))
+                }
             }
         }
 
         binding.stop.setOnClickListener {
-            binding.play.setImageResource(R.drawable.button_play_meditation)
-            sharedViewModel.stopPlayer()
+            when(sharedViewModel.playerState.value) {
+                MediaPlayerState.PLAYING -> {
+                    sharedViewModel.stopPlayer()
+                    binding.play.setImageResource(R.drawable.button_play_meditation)
+                }
+                MediaPlayerState.PAUSED -> {
+                    sharedViewModel.stopPlayer()
+                }
+            }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if(uri != null){
+            sharedViewModel.setPlayerUri(uri!!)
         }
     }
 
     override fun onPause() {
         super.onPause()
-        binding.play.setImageResource(R.drawable.button_play_meditation)
         sharedViewModel.resetPlayer()
+        binding.play.setImageResource(R.drawable.button_play_meditation)
     }
 }

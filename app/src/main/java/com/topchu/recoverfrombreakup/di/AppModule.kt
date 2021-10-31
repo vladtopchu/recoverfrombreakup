@@ -2,7 +2,6 @@ package com.topchu.recoverfrombreakup.di
 
 import android.app.Application
 import android.content.Context
-import android.media.MediaPlayer
 import androidx.navigation.NavOptions
 import androidx.room.Room
 import com.bumptech.glide.Glide

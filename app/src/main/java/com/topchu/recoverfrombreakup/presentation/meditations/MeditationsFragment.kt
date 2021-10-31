@@ -12,6 +12,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
+import com.google.android.exoplayer2.MediaItem
+import com.google.android.exoplayer2.SimpleExoPlayer
 import com.topchu.recoverfrombreakup.databinding.FragmentMeditationsBinding
 import com.topchu.recoverfrombreakup.utils.MediaPlayerCommand
 import com.topchu.recoverfrombreakup.utils.MediaPlayerState
@@ -29,7 +31,7 @@ class MeditationsFragment : Fragment() {
 
     private lateinit var viewPagerAdapter: MeditationsAdapter
 
-    var mediaPlayer: MediaPlayer? = null
+    private var mediaPlayer: SimpleExoPlayer? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,6 +46,10 @@ class MeditationsFragment : Fragment() {
 
         viewPagerAdapter = MeditationsAdapter(requireActivity())
 
+//        mediaPlayer?.setMediaItem(MediaItem.fromUri("https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"))
+//        mediaPlayer?.prepare()
+//        mediaPlayer?.play()
+
         viewModel.meditations.observe(viewLifecycleOwner) {
             viewPagerAdapter.meditationsList = it
             binding.viewPager.adapter = viewPagerAdapter
@@ -54,76 +60,76 @@ class MeditationsFragment : Fragment() {
             }
         }
 
+        sharedViewModel.uri.observe(viewLifecycleOwner, {
+            if(it.isNotEmpty()) {
+                mediaPlayer?.setMediaItem(MediaItem.fromUri(it))
+                sharedViewModel.statePlayerUriSet()
+            }
+        })
+
         sharedViewModel.playerCommand.observe(viewLifecycleOwner, {
-            when(it) {
+            when(it){
                 MediaPlayerCommand.START -> {
-                    Log.d("TESTTEST", "COMMAND START")
-                    when(sharedViewModel.playerState.value) {
-                        MediaPlayerState.IDLE -> {
+                    when(sharedViewModel.playerState.value){
+                        MediaPlayerState.URI_SET -> {
                             sharedViewModel.statePlayerLoading()
-                            mediaPlayer?.prepareAsync()
-                        }
-                        MediaPlayerState.PAUSED -> {
+                            mediaPlayer?.prepare()
+                            sharedViewModel.statePlayerReady()
+                            mediaPlayer?.play()
                             sharedViewModel.statePlayerPlaying()
-                            mediaPlayer?.start()
+                        }
+                        MediaPlayerState.PAUSED, MediaPlayerState.READY -> {
+                            mediaPlayer?.play()
+                            sharedViewModel.statePlayerPlaying()
+                        }
+                    }
+                }
+                MediaPlayerCommand.PAUSE -> {
+                    when(sharedViewModel.playerState.value) {
+                        MediaPlayerState.PLAYING -> {
+                            mediaPlayer?.pause()
+                            sharedViewModel.statePlayerPaused()
+                        }
+                        MediaPlayerState.LOADING -> {
+                            mediaPlayer?.stop()
+                            sharedViewModel.statePlayerUriSet()
                         }
                         else -> {
-                            throw Exception("WHAT THE ACTUAL FUCK")
+                            throw Exception("Illegal state: TRYING TO PAUSE WHEN NOT PLAYING")
                         }
                     }
                 }
                 MediaPlayerCommand.STOP -> {
-                    Log.d("TESTTEST", "COMMAND STOP")
-                    sharedViewModel.statePlayerReleased()
-                    mediaPlayer?.stop()
-                }
-                MediaPlayerCommand.RELEASE -> {
-                    Log.d("TESTTEST", "COMMAND RELEASE")
-                    sharedViewModel.statePlayerReleased()
-                    mediaPlayer?.release()
+                    mediaPlayer?.pause()
+                    mediaPlayer?.seekTo(0)
+                    if(sharedViewModel.playerState.value == MediaPlayerState.PLAYING ||
+                        sharedViewModel.playerState.value == MediaPlayerState.PAUSED) {
+                        sharedViewModel.statePlayerReady()
+                    } else {
+                        sharedViewModel.statePlayerReleased()
+                    }
                 }
                 MediaPlayerCommand.RESET -> {
-                    Log.d("TESTTEST", "COMMAND RESET")
-                    sharedViewModel.statePlayerReleased()
-                    mediaPlayer?.reset()
-                }
-                MediaPlayerCommand.PAUSE -> {
-                    Log.d("TESTTEST", "COMMAND PAUSE")
-                    sharedViewModel.statePlayerPaused()
-                    mediaPlayer?.pause()
+                    mediaPlayer?.stop()
+                    mediaPlayer?.clearMediaItems()
+                    sharedViewModel.statePlayerInitialized()
                 }
             }
         })
-
-        sharedViewModel.uri.observe(viewLifecycleOwner, {
-            if(it != null) {
-                Log.d("TESTTEST", "URI NOT NULL")
-                sharedViewModel.statePlayerLoading()
-                mediaPlayer?.setDataSource(it)
-                mediaPlayer?.prepareAsync()
-            }
-        })
-    }
-
-    override fun onPause() {
-        super.onPause()
-        Log.d("TESTTEST", "meditationS PAUSE")
-        sharedViewModel.clearPlayerUri()
-        sharedViewModel.statePlayerReleased()
-        mediaPlayer?.release()
-        mediaPlayer = null
     }
 
     override fun onResume() {
         super.onResume()
-        Log.d("TESTTEST", "meditationS RESUME")
-        mediaPlayer = MediaPlayer().apply {
-            setOnPreparedListener {
-                Log.d("TESTTEST", "PLAYER PREPARED")
-                sharedViewModel.statePlayerPlaying()
-                it.start()
-            }
+        if(mediaPlayer == null){
+            mediaPlayer = SimpleExoPlayer.Builder(requireContext()).build()
+            sharedViewModel.statePlayerInitialized()
         }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        mediaPlayer?.release()
+        mediaPlayer = null
     }
 
 }
