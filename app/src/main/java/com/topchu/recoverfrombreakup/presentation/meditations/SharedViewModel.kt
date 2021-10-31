@@ -16,12 +16,21 @@ class SharedViewModel (
     private val _playerState: MutableLiveData<MediaPlayerState> = MutableLiveData(MediaPlayerState.NOT_INITIALIZED)
     val playerState = _playerState.asLiveData()
 
+    private val _changeButtonIcon: MutableLiveData<Boolean> = MutableLiveData(false)
+    val changeButtonIcon = _changeButtonIcon.asLiveData()
+
+    private val _uriRequested: MutableLiveData<Boolean> = MutableLiveData(false)
+    val uriRequested = _uriRequested.asLiveData()
+
     private val _uri: MutableLiveData<String> = MutableLiveData("")
     val uri = _uri.asLiveData()
 
+    fun setUriRequested(boolean: Boolean) {
+        _uriRequested.postValue(boolean)
+    }
+
     fun setPlayerUri(uri: String) {
         _uri.postValue(uri)
-
     }
 
     fun startPlayer() {

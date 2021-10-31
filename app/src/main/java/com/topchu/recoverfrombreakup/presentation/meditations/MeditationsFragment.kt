@@ -11,10 +11,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.topchu.recoverfrombreakup.databinding.FragmentMeditationsBinding
+import com.topchu.recoverfrombreakup.presentation.meditations.meditation.MeditationFragment
 import com.topchu.recoverfrombreakup.utils.MediaPlayerCommand
 import com.topchu.recoverfrombreakup.utils.MediaPlayerState
 import dagger.hilt.android.AndroidEntryPoint
@@ -94,9 +96,6 @@ class MeditationsFragment : Fragment() {
                             mediaPlayer?.stop()
                             sharedViewModel.statePlayerUriSet()
                         }
-                        else -> {
-                            throw Exception("Illegal state: TRYING TO PAUSE WHEN NOT PLAYING")
-                        }
                     }
                 }
                 MediaPlayerCommand.STOP -> {
@@ -122,7 +121,11 @@ class MeditationsFragment : Fragment() {
         super.onResume()
         if(mediaPlayer == null){
             mediaPlayer = SimpleExoPlayer.Builder(requireContext()).build()
-            sharedViewModel.statePlayerInitialized()
+            if(sharedViewModel.playerState.value == MediaPlayerState.NOT_INITIALIZED)
+                sharedViewModel.statePlayerInitialized()
+            else if(sharedViewModel.uri.value!!.isNotEmpty())
+                sharedViewModel.statePlayerUriSet()
+                sharedViewModel.setUriRequested(true)
         }
     }
 

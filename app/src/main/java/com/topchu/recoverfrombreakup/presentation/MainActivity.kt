@@ -56,7 +56,7 @@ class MainActivity : AppCompatActivity() {
         if(!sharedPref.isContentBought()){
             binding.buyContent.visibility = View.VISIBLE
             binding.buyContent.setOnClickListener {
-                navController.navigate(R.id.buyFragment, null, navOptions)
+                binding.bottomNav.toProfile.performClick()
             }
         }
 
@@ -74,8 +74,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun toggleButton(fragmentId: Int) {
+
         when(fragmentId){
             R.id.tasksFragment, R.id.taskFragment -> {
+                if(!sharedPref.isContentBought() && binding.buyContent.visibility == View.GONE){
+                    binding.buyContent.visibility = View.VISIBLE
+                }
                 binding.bottomNav.toTasksImage.setImageResource(R.drawable.ic_tasks_active)
                 binding.bottomNav.toTasksName.setTextAppearance(TEXT_STYLE_ACTIVE)
 
@@ -85,6 +89,9 @@ class MainActivity : AppCompatActivity() {
                 binding.bottomNav.toProfileName.setTextAppearance(TEXT_STYLE_INACTVIVE)
             }
             R.id.meditationsFragment, R.id.meditationFragment -> {
+                if(!sharedPref.isContentBought() && binding.buyContent.visibility == View.GONE){
+                    binding.buyContent.visibility = View.VISIBLE
+                }
                 binding.bottomNav.toMeditationsImage.setImageResource(R.drawable.ic_meditations_active)
                 binding.bottomNav.toMeditationsName.setTextAppearance(TEXT_STYLE_ACTIVE)
 
@@ -94,6 +101,9 @@ class MainActivity : AppCompatActivity() {
                 binding.bottomNav.toProfileName.setTextAppearance(TEXT_STYLE_INACTVIVE)
             }
             R.id.profileFragment -> {
+                if(binding.buyContent.visibility == View.VISIBLE) {
+                    binding.buyContent.visibility = View.GONE
+                }
                 binding.bottomNav.toProfileImage.setImageResource(R.drawable.ic_profile_active)
                 binding.bottomNav.toProfileName.setTextAppearance(TEXT_STYLE_ACTIVE)
 

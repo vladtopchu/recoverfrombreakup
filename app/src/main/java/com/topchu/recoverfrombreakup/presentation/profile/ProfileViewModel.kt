@@ -21,11 +21,5 @@ import javax.inject.Inject
 class ProfileViewModel @Inject constructor (
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
-//
-//    private val _meditations: MutableLiveData<List<MeditationEntity>> = MutableLiveData(listOf())
-//    val meditations = _meditations.asLiveData()
 
-//    init {
-//
-//    }
 }

@@ -53,6 +53,17 @@ class MeditationFragment : Fragment() {
             }
         })
 
+        // Это нужно когда паузится медС, но мед остается
+        sharedViewModel.uriRequested.observe(viewLifecycleOwner, {
+            if(it) {
+                sharedViewModel.setUriRequested(false)
+                if(uri != null) {
+                    sharedViewModel.setPlayerUri(uri!!)
+                    binding.play.setImageResource(R.drawable.button_play_meditation)
+                }
+            }
+        })
+
         sharedViewModel.playerState.observe(viewLifecycleOwner, {
             if(it == MediaPlayerState.LOADING) {
                 if(binding.progressCircular.visibility == View.GONE)
@@ -92,6 +103,10 @@ class MeditationFragment : Fragment() {
         }
     }
 
+    fun setButtonPlay() {
+        binding.play.setImageResource(R.drawable.button_play_meditation)
+    }
+
     override fun onResume() {
         super.onResume()
         if(uri != null){
@@ -102,6 +117,6 @@ class MeditationFragment : Fragment() {
     override fun onPause() {
         super.onPause()
         sharedViewModel.resetPlayer()
-        binding.play.setImageResource(R.drawable.button_play_meditation)
+        setButtonPlay()
     }
 }
