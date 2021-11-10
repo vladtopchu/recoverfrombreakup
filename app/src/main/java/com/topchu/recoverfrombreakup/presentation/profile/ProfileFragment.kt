@@ -31,6 +31,7 @@ import com.topchu.recoverfrombreakup.databinding.FragmentMeditationsBinding
 import com.topchu.recoverfrombreakup.databinding.FragmentProfileBinding
 import com.topchu.recoverfrombreakup.utils.MediaPlayerCommand
 import com.topchu.recoverfrombreakup.utils.MediaPlayerState
+import com.topchu.recoverfrombreakup.utils.SharedPref
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import kotlin.math.sign
@@ -46,6 +47,9 @@ class ProfileFragment : Fragment() {
 
     @Inject
     lateinit var glide: RequestManager
+
+    @Inject
+    lateinit var sharedPref: SharedPref
 
     var auth: FirebaseAuth? = null
 
@@ -78,6 +82,10 @@ class ProfileFragment : Fragment() {
                 binding.profileParent.visibility = View.VISIBLE
                 binding.email.text = auth?.currentUser?.email
                 glide.load(auth?.currentUser?.photoUrl).into(binding.profilePicture)
+                if(sharedPref.isContentBought()){
+                   binding.statusFree.visibility = View.GONE
+                   binding.statusFull.visibility = View.VISIBLE
+                }
                 binding.logOut.setOnClickListener {
                     binding.progressCircular.visibility = View.VISIBLE
                     auth?.signOut()
@@ -136,13 +144,6 @@ class ProfileFragment : Fragment() {
             } else {
                 Toast.makeText(requireContext(), "Error", Toast.LENGTH_SHORT).show()
             }
-        }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        if(auth != null) {
-            Log.d("TESTTEST", auth!!.currentUser.toString())
         }
     }
 }

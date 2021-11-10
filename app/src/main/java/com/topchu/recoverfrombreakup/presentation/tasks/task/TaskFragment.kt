@@ -52,7 +52,7 @@ class TaskFragment : Fragment() {
                 binding.title.text = it.title
                 binding.subtitle.text = it.subtitle
                 recyclerViewAdapter.setTexts(it.texts.map { text ->
-                    getString(text)
+                    resources.getString(text)
                 })
                 recyclerViewAdapter.notifyDataSetChanged()
                 if(it.hasMeditation){

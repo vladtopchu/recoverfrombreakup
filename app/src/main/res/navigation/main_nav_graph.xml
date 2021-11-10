@@ -48,10 +48,6 @@
     </fragment>
 
     <fragment
-        android:id="@+id/buyFragment"
-        android:name="com.topchu.recoverfrombreakup.presentation.buy.BuyFragment"
-        android:label="BuyFragment" />
-    <fragment
         android:id="@+id/meditationFragment"
         android:name="com.topchu.recoverfrombreakup.presentation.meditations.meditation.MeditationFragment"
         android:label="MeditationFragment" />

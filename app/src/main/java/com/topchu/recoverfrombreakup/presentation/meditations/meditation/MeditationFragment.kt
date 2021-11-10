@@ -40,15 +40,15 @@ class MeditationFragment : Fragment() {
         itemViewModel.meditation.observe(viewLifecycleOwner, {
             if(it != null){
                 binding.title.text = it.name
-                if(it.isOpened && !it.isBlocked) {
+                if(it.isBlocked || !it.isOpened){
+                    binding.hint.text = "Чтобы получить доступ к данной медитации, откройте соответствующий день или приобретите полную версию"
+                    binding.locked.visibility = View.VISIBLE
+                    binding.parentView.setBackgroundResource(R.drawable.background_meditation_locked)
+                } else {
                     binding.hint.text = "Для достижения эффекта, медитации рекомендуется слушать непрерывно"
                     binding.player.visibility = View.VISIBLE
                     uri = it.uri
                     sharedViewModel.setPlayerUri(uri!!)
-                } else {
-                    binding.hint.text = "Чтобы получить доступ к данной медитации, откройте соответствующий день или приобретите полную версию"
-                    binding.locked.visibility = View.VISIBLE
-                    binding.parentView.setBackgroundResource(R.drawable.background_meditation_locked)
                 }
             }
         })

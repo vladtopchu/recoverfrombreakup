@@ -2,49 +2,42 @@ package com.topchu.recoverfrombreakup.utils
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.topchu.recoverfrombreakup.utils.Constants.FILENAME_KEY
-import com.topchu.recoverfrombreakup.utils.Constants.FIRST_LAUNCH_KEY
-import com.topchu.recoverfrombreakup.utils.Constants.HINT_HIDE
-import com.topchu.recoverfrombreakup.utils.Constants.IS_CONTENT_BOUGHT
-import com.topchu.recoverfrombreakup.utils.Constants.LAST_OPENED_TASK
-import com.topchu.recoverfrombreakup.utils.Constants.TOKEN_KEY
+import com.topchu.recoverfrombreakup.utils.Constants.SPKEY_FILENAME
+import com.topchu.recoverfrombreakup.utils.Constants.SPKEY_FIRST_LAUNCH
+import com.topchu.recoverfrombreakup.utils.Constants.SPKEY_IS_HINT_HIDED
+import com.topchu.recoverfrombreakup.utils.Constants.SPKEY_IS_CONTENT_BOUGHT
+import com.topchu.recoverfrombreakup.utils.Constants.SPKEY_TOKEN
 
 class SharedPref(context: Context) {
 
     private var sharedPreferences: SharedPreferences =
-        context.getSharedPreferences(FILENAME_KEY, Context.MODE_PRIVATE)
+        context.getSharedPreferences(SPKEY_FILENAME, Context.MODE_PRIVATE)
 
-    fun isFirstLaunch(): Boolean = sharedPreferences.getBoolean(FIRST_LAUNCH_KEY, true)
+    fun isFirstLaunch(): Boolean = sharedPreferences.getBoolean(SPKEY_FIRST_LAUNCH, true)
 
     fun setNotFirstLaunch() {
-        sharedPreferences.edit().putBoolean(FIRST_LAUNCH_KEY, false).apply()
+        sharedPreferences.edit().putBoolean(SPKEY_FIRST_LAUNCH, false).apply()
     }
 
-    fun isHintHided() = sharedPreferences.getBoolean(HINT_HIDE, false)
+    fun isHintHided() = sharedPreferences.getBoolean(SPKEY_IS_HINT_HIDED, false)
 
     fun hideHint() {
-        sharedPreferences.edit().putBoolean(HINT_HIDE, true).apply()
+        sharedPreferences.edit().putBoolean(SPKEY_IS_HINT_HIDED, true).apply()
     }
 
-    fun isContentBought() = sharedPreferences.getBoolean(IS_CONTENT_BOUGHT, false)
+    fun isContentBought() = sharedPreferences.getBoolean(SPKEY_IS_CONTENT_BOUGHT, false)
 
     fun setContentBought() {
-        sharedPreferences.edit().putBoolean(IS_CONTENT_BOUGHT, true).apply()
-    }
-
-    fun getLastOpenedTask(): Int = sharedPreferences.getInt(LAST_OPENED_TASK, 0)
-
-    fun setLastOpenedTask(id: Int) {
-        sharedPreferences.edit().putInt(LAST_OPENED_TASK, id).apply()
+        sharedPreferences.edit().putBoolean(SPKEY_IS_CONTENT_BOUGHT, true).apply()
     }
 
     fun wipeUserToken() {
-        sharedPreferences.edit().remove(TOKEN_KEY).apply()
+        sharedPreferences.edit().remove(SPKEY_TOKEN).apply()
     }
 
     fun setUserToken(token: String) {
-        sharedPreferences.edit().putString(TOKEN_KEY, token).apply()
+        sharedPreferences.edit().putString(SPKEY_TOKEN, token).apply()
     }
 
-    fun getUserToken(): String? = sharedPreferences.getString(TOKEN_KEY, null)
+    fun getUserToken(): String? = sharedPreferences.getString(SPKEY_TOKEN, null)
 }

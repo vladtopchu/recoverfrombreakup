@@ -49,7 +49,6 @@ class WelcomeFragment: Fragment() {
         val adapter = ParagraphAdapter()
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         val texts = listOf(R.string.intro_a, R.string.intro_b, R.string.intro_c, R.string.intro_d, R.string.intro_e, R.string.intro_f).map { getString(it) }
-        Log.d("testtest", texts.toString())
         adapter.setTexts(texts)
         binding.recyclerView.adapter = adapter
 

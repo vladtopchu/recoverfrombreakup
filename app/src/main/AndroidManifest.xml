@@ -3,6 +3,7 @@
     package="com.topchu.recoverfrombreakup">
 
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="com.android.vending.BILLING"/>
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
 
     <application
@@ -29,9 +30,14 @@
         </activity>
 
         <activity
-            android:name=".presentation.TestActivity"
+            android:name=".presentation.BuyActivity"
             android:exported="true">
         </activity>
+
+
+        <meta-data
+            android:name="com.google.android.gms.wallet.api.enabled"
+            android:value="true" />
 
     </application>
 
