@@ -7,8 +7,10 @@ import androidx.room.TypeConverters
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.topchu.recoverfrombreakup.R
 import com.topchu.recoverfrombreakup.data.local.daos.MeditationDao
+import com.topchu.recoverfrombreakup.data.local.daos.NotificationDao
 import com.topchu.recoverfrombreakup.data.local.daos.TaskDao
 import com.topchu.recoverfrombreakup.data.local.entities.MeditationEntity
+import com.topchu.recoverfrombreakup.data.local.entities.NotificationEntity
 import com.topchu.recoverfrombreakup.data.local.entities.TaskEntity
 import com.topchu.recoverfrombreakup.di.ApplicationScope
 import com.topchu.recoverfrombreakup.utils.Converters
@@ -23,6 +25,7 @@ abstract class AppDatabase : RoomDatabase() {
 
     abstract fun taskDao(): TaskDao
     abstract fun meditationDao(): MeditationDao
+    abstract fun notificationDao(): NotificationDao
 
     class Callback @Inject constructor(
         // with Provider we can get dependencies lazily
@@ -38,6 +41,7 @@ abstract class AppDatabase : RoomDatabase() {
 
             val taskDao = database.get().taskDao()
             val meditationDao = database.get().meditationDao()
+            val notificationDao = database.get().notificationDao()
 
             applicationScope.launch {
                 taskDao.insertTask(TaskEntity("День 1", "Сжигаем мосты",
@@ -140,6 +144,15 @@ abstract class AppDatabase : RoomDatabase() {
                 meditationDao.insertMeditation(MeditationEntity("Снятие внезапных приступов паники и ощущения потери (День 13)",
                     "https://firebasestorage.googleapis.com/v0/b/recoveryapp-eae12.appspot.com/o/meditation_d.mp3?alt=media&token=83f298bb-c036-4496-b0c7-005f31eac0c8",
                     false))
+
+                notificationDao.insertNotification(NotificationEntity(
+                    "Подсказка",
+                    "Новое задание откроется через 24 часа после прохождения предыдущего!",
+                    System.currentTimeMillis()))
+                notificationDao.insertNotification(NotificationEntity(
+                    "Важно!",
+                    "Без авторизации Ваш прогресс может быть утерян при переустановке приложения, а так же Вы не сможете приобрести платный контент и перенести текущий прогресс на другие устройства.",
+                    System.currentTimeMillis() + 1000))
             }
         }
     }
