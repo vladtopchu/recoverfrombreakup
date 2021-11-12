@@ -19,7 +19,7 @@ interface NotificationDao {
     @Query("SELECT * FROM notifications WHERE is_active = 0 ORDER BY timestamp DESC")
     suspend fun getInactiveNotifications(): List<NotificationEntity>
 
-    @Query("SELECT * FROM meditations WHERE id = :id")
+    @Query("SELECT * FROM notifications WHERE id = :id")
     suspend fun getNotification(id: Int): NotificationEntity
 
     @Query("UPDATE notifications SET is_active = 0 WHERE id = :id")

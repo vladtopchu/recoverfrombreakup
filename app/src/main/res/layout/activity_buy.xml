@@ -1,25 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center">
 
-<!--    <ProgressBar-->
-<!--        android:id="@+id/progress_circular"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_centerInParent="true"-->
-<!--        />-->
-
-    <TextView
-        android:id="@+id/product_title"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"/>
-
-    <Button
-        android:id="@+id/buy"
-        android:layout_height="wrap_content"
+    <ProgressBar
+        android:id="@+id/progress_circular"
         android:layout_width="wrap_content"
-        android:layout_centerInParent="true"/>
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        />
 
-</RelativeLayout>
+    <LinearLayout
+        android:id="@+id/content"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/product_title"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_marginHorizontal="30dp"
+            android:text="testtest"
+            android:gravity="center"
+            style="@style/bottomNavTextActive"/>
+
+        <TextView
+            android:id="@+id/product_description"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_marginHorizontal="30dp"
+            android:text="testtest"
+            android:gravity="center"
+            android:layout_marginTop="5dp"
+            style="@style/bottomNavTextInactive"/>
+
+        <TextView
+            android:id="@+id/buy"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            style="@style/buttonPrimary"
+            android:background="@drawable/button_primary"/>
+
+    </LinearLayout>
+
+</LinearLayout>

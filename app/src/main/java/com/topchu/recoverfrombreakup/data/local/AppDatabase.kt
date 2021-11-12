@@ -19,7 +19,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Provider
 
-@Database(entities = [TaskEntity::class, MeditationEntity::class], version = 1, exportSchema = false)
+@Database(entities = [TaskEntity::class, MeditationEntity::class, NotificationEntity::class], version = 1, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
 

@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import com.topchu.recoverfrombreakup.utils.Constants.SPKEY_FILENAME
 import com.topchu.recoverfrombreakup.utils.Constants.SPKEY_FIRST_LAUNCH
+import com.topchu.recoverfrombreakup.utils.Constants.SPKEY_FIRST_STORE_VISIT
 import com.topchu.recoverfrombreakup.utils.Constants.SPKEY_IS_HINT_HIDED
 import com.topchu.recoverfrombreakup.utils.Constants.SPKEY_IS_CONTENT_BOUGHT
 import com.topchu.recoverfrombreakup.utils.Constants.SPKEY_TOKEN
@@ -40,4 +41,10 @@ class SharedPref(context: Context) {
     }
 
     fun getUserToken(): String? = sharedPreferences.getString(SPKEY_TOKEN, null)
+
+    fun setNotFirstStoreVisit() {
+        sharedPreferences.edit().putBoolean(SPKEY_FIRST_STORE_VISIT, false).apply()
+    }
+
+    fun isFirstStoreVisit(): Boolean = sharedPreferences.getBoolean(SPKEY_FIRST_STORE_VISIT, true)
 }

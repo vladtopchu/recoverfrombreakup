@@ -8,9 +8,11 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import com.topchu.recoverfrombreakup.R
 import com.topchu.recoverfrombreakup.data.local.AppDatabase
+import com.topchu.recoverfrombreakup.utils.Constants.FIREBASE_USERS_COLLECTION
 import com.topchu.recoverfrombreakup.utils.SharedPref
 import dagger.Module
 import dagger.Provides
@@ -66,6 +68,11 @@ object AppModule {
         setPopEnterAnim(R.anim.nav_default_pop_enter_anim)
         setPopExitAnim(R.anim.nav_default_pop_exit_anim)
     }.build()
+
+    @Provides
+    @Singleton
+    fun provideFirestoreUsers() = FirebaseFirestore.getInstance()
+        .collection(FIREBASE_USERS_COLLECTION)
 
     @Singleton
     @Provides
