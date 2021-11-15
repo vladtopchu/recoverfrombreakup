@@ -17,6 +17,15 @@ interface TaskDao {
     @Query("UPDATE tasks SET is_opened = 1, is_active = 1, will_open_at = null WHERE id = :id")
     suspend fun openTask(id: Int)
 
+    @Query("UPDATE tasks SET is_opened = 0 WHERE id >= :id AND is_opened = 1")
+    suspend fun closeTasksFrom(id: Int)
+
+    @Query("UPDATE tasks SET is_opened = 1 WHERE id <= :id AND is_opened = 0")
+    suspend fun openTasksUpTo(id: Int)
+
+    @Query("UPDATE tasks SET is_active = 1 WHERE id = :id")
+    suspend fun makeTaskActive(id: Int)
+
     @Query("UPDATE tasks SET is_active = 0 WHERE id = :id")
     suspend fun makeTaskInactive(id: Int)
 

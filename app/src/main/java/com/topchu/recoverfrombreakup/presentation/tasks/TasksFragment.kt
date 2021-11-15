@@ -13,6 +13,9 @@ import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.ktx.Firebase
 import com.topchu.recoverfrombreakup.R
 import com.topchu.recoverfrombreakup.data.local.daos.MeditationDao
 import com.topchu.recoverfrombreakup.data.local.daos.TaskDao
@@ -25,6 +28,7 @@ import com.topchu.recoverfrombreakup.utils.toTimeObject
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -48,6 +52,9 @@ class TasksFragment : Fragment() {
     lateinit var taskDao: TaskDao
 
     @Inject
+    lateinit var firestoreUsers: CollectionReference
+
+    @Inject
     lateinit var meditationDao: MeditationDao
 
     @ApplicationScope
@@ -59,13 +66,6 @@ class TasksFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentTasksBinding.inflate(inflater, container, false)
-        if(!sharedPref.isHintHided()) {
-            binding.hint.visibility = View.VISIBLE
-            binding.hint.setOnClickListener {
-                it.visibility = View.GONE
-                sharedPref.hideHint()
-            }
-        }
         return binding.root
     }
 
@@ -106,6 +106,21 @@ class TasksFragment : Fragment() {
                                         meditationDao.openMeditationById(task.meditationId.toInt())
                                     }
                                     viewModel.updateTasks()
+                                    if(Firebase.auth.currentUser == null) {
+                                        sharedPref.setLocalProgress(task.id.toInt())
+                                    } else {
+                                        sharedPref.setUserProgress(task.id.toInt())
+                                        applicationScope.launch {
+                                            firestoreUsers.document(Firebase.auth.currentUser!!.uid)
+                                                .set(hashMapOf("progress" to sharedPref.getUserProgress()))
+                                                .addOnCompleteListener {
+                                                    Timber.d("User's progress has been updated!")
+                                                }
+                                                .addOnFailureListener {
+                                                    Timber.d("Can't update User's progress")
+                                                }
+                                        }
+                                    }
                                 }
                             }
                         }

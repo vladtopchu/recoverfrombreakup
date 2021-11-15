@@ -18,7 +18,7 @@ class TaskViewModel @Inject constructor (
     @ApplicationScope private val applicationScope: CoroutineScope,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
-    val _task: MutableLiveData<TaskEntity> = MutableLiveData()
+    private val _task: MutableLiveData<TaskEntity> = MutableLiveData()
     var task = _task.asLiveData()
 
     init {
@@ -29,7 +29,8 @@ class TaskViewModel @Inject constructor (
                 if(candidate.isActive){
                     taskDao.makeTaskInactive(taskId)
                     if(taskId != 21){
-                        taskDao.setOpeningTimer(taskId+1, System.currentTimeMillis() + 24 * 3600000)
+//                        taskDao.setOpeningTimer(taskId+1, System.currentTimeMillis() + 24 * 3600000)
+                        taskDao.setOpeningTimer(taskId+1, System.currentTimeMillis() + 1000)
                     }
                 }
             }

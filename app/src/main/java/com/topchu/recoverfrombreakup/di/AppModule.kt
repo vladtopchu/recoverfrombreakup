@@ -56,6 +56,9 @@ object AppModule {
     @Provides
     fun provideMeditationDao(db: AppDatabase) = db.meditationDao()
 
+    @Provides
+    fun provideNotificationDao(db: AppDatabase) = db.notificationDao()
+
     @Singleton
     @Provides
     fun provideFirebaseAuth() = Firebase.auth

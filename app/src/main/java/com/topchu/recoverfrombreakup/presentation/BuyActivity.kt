@@ -1,8 +1,6 @@
 package com.topchu.recoverfrombreakup.presentation
 
 import android.os.Bundle
-import android.os.Looper
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -11,7 +9,10 @@ import com.android.billingclient.api.*
 import com.android.volley.Request
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.SetOptions
+import com.google.firebase.ktx.Firebase
 import com.topchu.recoverfrombreakup.data.local.daos.MeditationDao
 import com.topchu.recoverfrombreakup.data.local.daos.TaskDao
 import com.topchu.recoverfrombreakup.databinding.ActivityBuyBinding
@@ -24,10 +25,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.json.JSONObject
+import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
 import kotlin.concurrent.schedule
-import kotlin.concurrent.timerTask
 
 @AndroidEntryPoint
 class BuyActivity: AppCompatActivity() {
@@ -95,13 +96,14 @@ class BuyActivity: AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        if(shouldVerifyOnResume && !sharedPref.isFirstStoreVisit()){
-            Log.d("TESTTEST", "HERE")
-            if(billingClient?.isReady == true) {
+        if(shouldVerifyOnResume && !sharedPref.isFirstStoreVisit()) {
+            Timber.d("ONRESUME")
+            if (billingClient?.isReady == true) {
+                Timber.d("BILLING CLIENT READY")
                 queryPurchases()
             } else {
                 Timer("Test", false).schedule(1000) {
-                    Log.d("TESTTEST", "??")
+                    Timber.d("??")
                     queryPurchases()
                 }
             }
@@ -113,6 +115,8 @@ class BuyActivity: AppCompatActivity() {
             BillingClient.SkuType.INAPP
         ) { billingResult, purchases ->
             if (billingResult.responseCode == BillingClient.BillingResponseCode.OK && purchases.isNotEmpty()) {
+                Timber.d("QUERYPURCHASES")
+                Timber.d(purchases.toString())
                 purchases.forEach {
                     if (it.purchaseState == Purchase.PurchaseState.PURCHASED &&
                         !it.isAcknowledged
@@ -130,20 +134,10 @@ class BuyActivity: AppCompatActivity() {
     }
 
     private fun verifyPurchase(purchase: Purchase) {
-        Log.d("TESTTEST", "VerifyPurchase: ".plus(purchase.toString()))
+        Timber.d("VerifyPurchase: ".plus(purchase.toString()))
         binding.content.visibility = View.GONE
         binding.progressCircular.visibility = View.VISIBLE
 
-
-
-
-    }
-
-    private fun updateUserContentStatus() {
-
-    }
-
-    private fun verifyOnServer(purchase: Purchase){
         val requestUrl = FIREBASE_VERIFY_PURCHASE_URL +
                 "?purchaseToken=" + purchase.purchaseToken +
                 "&purchaseTime=" + purchase.purchaseTime +
@@ -155,33 +149,13 @@ class BuyActivity: AppCompatActivity() {
             { response ->
                 try {
                     val purchaseInfo = JSONObject(response)
-                    if(purchaseInfo.getBoolean("isValid")) {
-                        val acknowledgePurchaseParams = AcknowledgePurchaseParams
-                            .newBuilder()
-                            .setPurchaseToken(purchase.purchaseToken)
-                            .build()
-                        billingClient?.acknowledgePurchase(
-                            acknowledgePurchaseParams
-                        ) { billingResult ->
-                            Log.d("TESTTEST", "ACKNOWLEDGED RESPONSE")
-                            if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
-                                applicationScope.launch {
-                                    Log.d("TESTTEST", "ACKNOWLEDGED")
-                                    withContext(Dispatchers.Main) {
-                                        Toast
-                                            .makeText(applicationContext, "Контент успешно приобретён!\nПеренаправляю на главную страницу...", Toast.LENGTH_LONG)
-                                            .show()
-                                    }
-                                    sharedPref.setContentBought()
-                                    taskDao.unlockTasks()
-                                    meditationDao.unlockMeditations()
-                                    this@BuyActivity.finish()
-                                }
-                            }
-                        }
+                    Timber.d("Запрос успешен! ".plus(purchaseInfo.toString()))
+                    if (purchaseInfo.getBoolean("isValid")) {
+                        Timber.d("isValid == true")
+                        updateUserContentStatus(purchase)
                     }
-                } catch(e: Exception) {
-                    Log.d("TESTTEST", "Запрос завершился с ошибкой:\n".plus(e.message))
+                } catch (e: Exception) {
+                    Timber.d("Запрос завершился с ошибкой:" + "\n".plus(e.message))
                 }
             }
         ) {
@@ -191,20 +165,74 @@ class BuyActivity: AppCompatActivity() {
                     Toast.LENGTH_LONG)
                 .show()
         }
+
         Volley.newRequestQueue(this).add(stringRequest)
+    }
+
+    private fun updateUserContentStatus(purchase: Purchase) {
+        Timber.d("update user")
+        if (Firebase.auth.currentUser != null) {
+            Timber.d("update user current user not null")
+            val updateData = hashMapOf("paid" to 1)
+            firestoreUsers.document(Firebase.auth.currentUser!!.uid)
+                .set(updateData, SetOptions.merge())
+                .addOnCompleteListener {
+                    Timber.d("update user complete")
+                    acknowledgePurchase(purchase)
+                }
+                .addOnFailureListener {
+                    Timber.d("update user failure")
+                    Toast
+                        .makeText(applicationContext,
+                            "Не удалось обновить статус пользователя!",
+                            Toast.LENGTH_LONG).show()
+                }
+        }
+    }
+
+    private fun acknowledgePurchase(purchase: Purchase) {
+        val acknowledgePurchaseParams = AcknowledgePurchaseParams
+            .newBuilder()
+            .setPurchaseToken(purchase.purchaseToken)
+            .build()
+        billingClient?.acknowledgePurchase(
+            acknowledgePurchaseParams
+        ) { billingResult ->
+            Timber.d("ACKNOWLEDGED RESPONSE")
+            if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
+                applicationScope.launch {
+                    Timber.d("ACKNOWLEDGED")
+                    withContext(Dispatchers.Main) {
+                        Toast
+                            .makeText(applicationContext,
+                                "Контент успешно приобретён!\nПеренаправляю на главную страницу...",
+                                Toast.LENGTH_LONG)
+                            .show()
+                    }
+                    sharedPref.setContentBought()
+                    taskDao.unlockTasks()
+                    meditationDao.unlockMeditations()
+                    this@BuyActivity.finish()
+                }
+            }
+        }
     }
 
     private fun connectToBilling() {
         billingClient?.startConnection(
             object : BillingClientStateListener {
                 override fun onBillingServiceDisconnected() {
-                    Log.d("TESTTEST", "onBillingServiceDisconnected")
-                    connectToBilling()
+                    Toast
+                        .makeText(
+                            this@BuyActivity,
+                            "Не удалось подключиться к сервисам Google!\nПроверьте интернет-соеднинение и попробуйте позже",
+                            Toast.LENGTH_LONG)
+                        .show()
                 }
 
                 override fun onBillingSetupFinished(result: BillingResult) {
                     if(result.responseCode == BillingClient.BillingResponseCode.OK) {
-                        Log.d("TESTTEST", "onBillingSetupFinished")
+                        Timber.d("onBillingSetupFinished")
                         getProductDetails()
                     }
                 }

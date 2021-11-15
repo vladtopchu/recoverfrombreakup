@@ -14,6 +14,8 @@ import androidx.navigation.NavController
 import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.topchu.recoverfrombreakup.R
 import com.topchu.recoverfrombreakup.databinding.ActivityMainBinding
 import com.topchu.recoverfrombreakup.utils.Constants.TEXT_STYLE_ACTIVE
@@ -24,9 +26,6 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
-
-    @Inject
-    lateinit var auth: FirebaseAuth
 
     @Inject
     lateinit var sharedPref: SharedPref
@@ -54,13 +53,26 @@ class MainActivity : AppCompatActivity() {
         navController = findNavController(R.id.nav_host_main)
 
         if(!sharedPref.isContentBought()){
-            binding.buyContent.visibility = View.VISIBLE
+            binding.buyContentParent.visibility = View.VISIBLE
             binding.buyContent.setOnClickListener {
-                startActivity(Intent(this@MainActivity, BuyActivity::class.java))
+                if(Firebase.auth.currentUser != null){
+                    startActivity(Intent(this@MainActivity, BuyActivity::class.java))
+                } else if(currentFragment != R.id.profileFragment){
+                    toggleButton(R.id.profileFragment)
+                    navController.navigate(R.id.profileFragment, null, navOptions)
+                    currentFragment = R.id.profileFragment
+                }
             }
         }
 
         initNavButtons()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if(sharedPref.isContentBought()) {
+            binding.buyContentParent.visibility = View.GONE
+        }
     }
 
     override fun onBackPressed() {
@@ -74,7 +86,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun toggleButton(fragmentId: Int) {
-
         when(fragmentId){
             R.id.tasksFragment, R.id.taskFragment -> {
                 binding.bottomNav.toTasksImage.setImageResource(R.drawable.ic_tasks_active)

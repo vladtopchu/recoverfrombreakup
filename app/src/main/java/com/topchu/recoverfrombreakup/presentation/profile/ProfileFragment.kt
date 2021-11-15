@@ -1,11 +1,9 @@
 package com.topchu.recoverfrombreakup.presentation.profile
 
 import android.content.Intent
-import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -13,10 +11,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.navArgs
-import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -25,16 +19,16 @@ import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.ktx.Firebase
 import com.topchu.recoverfrombreakup.R
-import com.topchu.recoverfrombreakup.databinding.FragmentMeditationsBinding
 import com.topchu.recoverfrombreakup.databinding.FragmentProfileBinding
-import com.topchu.recoverfrombreakup.utils.MediaPlayerCommand
-import com.topchu.recoverfrombreakup.utils.MediaPlayerState
+import com.topchu.recoverfrombreakup.di.ApplicationScope
 import com.topchu.recoverfrombreakup.utils.SharedPref
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import timber.log.Timber
 import javax.inject.Inject
-import kotlin.math.sign
 
 @AndroidEntryPoint
 class ProfileFragment : Fragment() {
@@ -43,10 +37,15 @@ class ProfileFragment : Fragment() {
 
     private lateinit var launcher: ActivityResultLauncher<Intent>
 
-    private val viewModel: ProfileViewModel by viewModels()
-
     @Inject
     lateinit var glide: RequestManager
+
+    @Inject
+    lateinit var firestoreUsers: CollectionReference
+
+    @Inject
+    @ApplicationScope
+    lateinit var applicationScope: CoroutineScope
 
     @Inject
     lateinit var sharedPref: SharedPref
@@ -138,9 +137,15 @@ class ProfileFragment : Fragment() {
 
     private fun firebaseAuthWithGoogle(idToken: String){
         val credentials = GoogleAuthProvider.getCredential(idToken, null)
-        auth?.signInWithCredential(credentials)?.addOnCompleteListener {
+        auth?.signInWithCredential(credentials)?.addOnCompleteListener { it ->
             if(it.isSuccessful){
-                viewModel
+                firestoreUsers.document(auth!!.currentUser!!.uid).get()
+                    .addOnSuccessListener { documentSnapshot ->
+                        // TODO: проверка пустой ли документ, открытие/закрытие дней при входе
+                    }
+                    .addOnFailureListener { exception ->
+                        Timber.d(exception.message)
+                    }
             } else {
                 Toast.makeText(requireContext(), "Error", Toast.LENGTH_SHORT).show()
             }
