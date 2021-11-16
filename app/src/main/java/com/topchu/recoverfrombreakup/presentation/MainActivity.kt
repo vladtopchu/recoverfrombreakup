@@ -52,27 +52,7 @@ class MainActivity : AppCompatActivity() {
 
         navController = findNavController(R.id.nav_host_main)
 
-        if(!sharedPref.isContentBought()){
-            binding.buyContentParent.visibility = View.VISIBLE
-            binding.buyContent.setOnClickListener {
-                if(Firebase.auth.currentUser != null){
-                    startActivity(Intent(this@MainActivity, BuyActivity::class.java))
-                } else if(currentFragment != R.id.profileFragment){
-                    toggleButton(R.id.profileFragment)
-                    navController.navigate(R.id.profileFragment, null, navOptions)
-                    currentFragment = R.id.profileFragment
-                }
-            }
-        }
-
         initNavButtons()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        if(sharedPref.isContentBought()) {
-            binding.buyContentParent.visibility = View.GONE
-        }
     }
 
     override fun onBackPressed() {
@@ -141,10 +121,6 @@ class MainActivity : AppCompatActivity() {
                 currentFragment = R.id.profileFragment
             }
         }
-    }
-
-    fun hideBuyButton() {
-        binding.buyContent.visibility = View.GONE
     }
 }
 

@@ -35,6 +35,9 @@ interface TaskDao {
     @Query("UPDATE tasks SET is_blocked = 0 WHERE is_blocked = 1")
     suspend fun unlockTasks()
 
+    @Query("UPDATE tasks SET is_blocked = 1 WHERE id > 5")
+    suspend fun lockTasks()
+
     @Insert
     suspend fun insertTask(task: TaskEntity)
 }

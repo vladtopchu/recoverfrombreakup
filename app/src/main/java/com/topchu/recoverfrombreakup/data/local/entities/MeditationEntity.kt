@@ -9,6 +9,7 @@ import java.sql.Date
 data class MeditationEntity(
     @ColumnInfo() val name: String,
     @ColumnInfo() val uri: String,
+    @ColumnInfo(name = "task_id") val taskId: Long = 0L,
     @ColumnInfo(name = "is_opened") val isOpened: Boolean = false,
     @ColumnInfo(name = "is_blocked") val isBlocked: Boolean = true,
     @ColumnInfo(name = "cached_uri") val cachedUri: String? = null,

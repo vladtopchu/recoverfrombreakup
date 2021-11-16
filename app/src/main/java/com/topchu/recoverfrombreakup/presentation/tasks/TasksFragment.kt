@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.SetOptions
 import com.google.firebase.ktx.Firebase
 import com.topchu.recoverfrombreakup.R
 import com.topchu.recoverfrombreakup.data.local.daos.MeditationDao
@@ -112,7 +113,7 @@ class TasksFragment : Fragment() {
                                         sharedPref.setUserProgress(task.id.toInt())
                                         applicationScope.launch {
                                             firestoreUsers.document(Firebase.auth.currentUser!!.uid)
-                                                .set(hashMapOf("progress" to sharedPref.getUserProgress()))
+                                                .set(hashMapOf("progress" to sharedPref.getUserProgress()), SetOptions.merge())
                                                 .addOnCompleteListener {
                                                     Timber.d("User's progress has been updated!")
                                                 }

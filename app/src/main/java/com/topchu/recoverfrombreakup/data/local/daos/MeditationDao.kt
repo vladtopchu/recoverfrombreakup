@@ -18,14 +18,17 @@ interface MeditationDao {
     @Query("UPDATE meditations SET is_opened = 1 WHERE id = :id")
     suspend fun openMeditationById(id: Int)
 
-    @Query("UPDATE meditations SET is_opened = 1 WHERE id <= :id AND is_opened = 0")
-    suspend fun openMeditationsUpTo(id: Int)
+    @Query("UPDATE meditations SET is_opened = 1 WHERE task_id <= :taskId AND is_opened = 0")
+    suspend fun openMeditationsUpTo(taskId: Int)
 
     @Query("UPDATE meditations SET is_opened = 0 WHERE id >= :id AND is_opened = 1")
     suspend fun closeMeditationsFrom(id: Int)
 
     @Query("UPDATE meditations SET is_blocked = 0 WHERE is_blocked = 1")
     suspend fun unlockMeditations()
+
+    @Query("UPDATE meditations SET is_blocked = 1 WHERE task_id > 5")
+    suspend fun lockMeditations()
 
     @Insert
     suspend fun insertMeditation(meditation: MeditationEntity)

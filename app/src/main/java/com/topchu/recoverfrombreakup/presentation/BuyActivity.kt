@@ -6,6 +6,7 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.android.billingclient.api.*
+import com.android.volley.DefaultRetryPolicy
 import com.android.volley.Request
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
@@ -165,7 +166,7 @@ class BuyActivity: AppCompatActivity() {
                     Toast.LENGTH_LONG)
                 .show()
         }
-
+        stringRequest.retryPolicy = DefaultRetryPolicy(0, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
         Volley.newRequestQueue(this).add(stringRequest)
     }
 
@@ -209,7 +210,7 @@ class BuyActivity: AppCompatActivity() {
                                 Toast.LENGTH_LONG)
                             .show()
                     }
-                    sharedPref.setContentBought()
+                    sharedPref.setContentBought(true)
                     taskDao.unlockTasks()
                     meditationDao.unlockMeditations()
                     this@BuyActivity.finish()

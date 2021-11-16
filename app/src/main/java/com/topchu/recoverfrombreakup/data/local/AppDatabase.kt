@@ -131,19 +131,19 @@ abstract class AppDatabase : RoomDatabase() {
                 meditationDao.insertMeditation(MeditationEntity(
                     "Очищение водой\n(День 1)",
                     "https://firebasestorage.googleapis.com/v0/b/recoveryapp-eae12.appspot.com/o/meditation_a.mp3?alt=media&token=d69d10af-b4f7-43b8-b833-3df6f336e940",
-                    true, false))
+                    1, true, false))
 
                 meditationDao.insertMeditation(MeditationEntity("Снятие утренней тревожности\n(День 2)",
                     "https://firebasestorage.googleapis.com/v0/b/recoveryapp-eae12.appspot.com/o/meditation_b.mp3?alt=media&token=5072dbd2-a648-4af6-bdbb-b617d46eb0cc",
-                    false, false))
+                    2, false, false))
 
                 meditationDao.insertMeditation(MeditationEntity("Привлечение деятельной энергии\n(День 12)",
                     "https://firebasestorage.googleapis.com/v0/b/recoveryapp-eae12.appspot.com/o/meditation_c.mp3?alt=media&token=a7920eaf-87fd-4346-b3b4-6af35468450e",
-                    false))
+                    12, false))
 
                 meditationDao.insertMeditation(MeditationEntity("Снятие внезапных приступов паники и ощущения потери (День 13)",
                     "https://firebasestorage.googleapis.com/v0/b/recoveryapp-eae12.appspot.com/o/meditation_d.mp3?alt=media&token=83f298bb-c036-4496-b0c7-005f31eac0c8",
-                    false))
+                    13, false))
 
                 notificationDao.insertNotification(NotificationEntity(
                     "Подсказка",

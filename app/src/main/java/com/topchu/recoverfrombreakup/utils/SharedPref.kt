@@ -36,8 +36,8 @@ class SharedPref(context: Context) {
 
     fun isContentBought() = sharedPreferences.getBoolean(SPKEY_IS_CONTENT_BOUGHT, false)
 
-    fun setContentBought() {
-        sharedPreferences.edit().putBoolean(SPKEY_IS_CONTENT_BOUGHT, true).apply()
+    fun setContentBought(bool: Boolean) {
+        sharedPreferences.edit().putBoolean(SPKEY_IS_CONTENT_BOUGHT, bool).apply()
     }
 
     fun setNotFirstStoreVisit() {

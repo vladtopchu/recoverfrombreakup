@@ -20,13 +20,18 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.SetOptions
 import com.google.firebase.ktx.Firebase
 import com.topchu.recoverfrombreakup.R
+import com.topchu.recoverfrombreakup.data.local.daos.MeditationDao
+import com.topchu.recoverfrombreakup.data.local.daos.TaskDao
 import com.topchu.recoverfrombreakup.databinding.FragmentProfileBinding
 import com.topchu.recoverfrombreakup.di.ApplicationScope
+import com.topchu.recoverfrombreakup.presentation.BuyActivity
 import com.topchu.recoverfrombreakup.utils.SharedPref
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -48,6 +53,12 @@ class ProfileFragment : Fragment() {
     lateinit var applicationScope: CoroutineScope
 
     @Inject
+    lateinit var taskDao: TaskDao
+
+    @Inject
+    lateinit var meditationDao: MeditationDao
+
+    @Inject
     lateinit var sharedPref: SharedPref
 
     var auth: FirebaseAuth? = null
@@ -64,9 +75,7 @@ class ProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         initFirebaseGoogleAuth()
-
     }
 
     private fun initFirebaseGoogleAuth() {
@@ -85,10 +94,30 @@ class ProfileFragment : Fragment() {
                    binding.statusFree.visibility = View.GONE
                    binding.statusFull.visibility = View.VISIBLE
                 }
-                binding.logOut.setOnClickListener {
+                binding.buy.setOnClickListener {
+                    startActivity(Intent(requireActivity(), BuyActivity::class.java))
+                }
+                if(sharedPref.isContentBought()){
+                    binding.statusFree.visibility = View.GONE
+                    binding.statusFull.visibility = View.VISIBLE
+                }
+                binding.logOut.setOnClickListener { _ ->
                     binding.progressCircular.visibility = View.VISIBLE
-                    auth?.signOut()
-                    signOutUi()
+                    applicationScope.launch {
+                        meditationDao.lockMeditations()
+                        taskDao.lockTasks()
+                        sharedPref.setContentBought(false)
+                        firestoreUsers.document(auth?.uid!!)
+                            .set(hashMapOf("progress" to sharedPref.getUserProgress()), SetOptions.merge())
+                            .addOnSuccessListener {
+                                Timber.d("User's progress was updated successfully")
+                            }
+                            .addOnFailureListener { exception ->
+                                Timber.d("Can't update User's progress.. ".plus(exception.message))
+                            }
+                        auth?.signOut()
+                        signOutUi()
+                    }
                 }
             }
         }
@@ -139,9 +168,57 @@ class ProfileFragment : Fragment() {
         val credentials = GoogleAuthProvider.getCredential(idToken, null)
         auth?.signInWithCredential(credentials)?.addOnCompleteListener { it ->
             if(it.isSuccessful){
-                firestoreUsers.document(auth!!.currentUser!!.uid).get()
+                val userUid = auth!!.currentUser!!.uid
+                firestoreUsers.document(userUid).get()
                     .addOnSuccessListener { documentSnapshot ->
-                        // TODO: проверка пустой ли документ, открытие/закрытие дней при входе
+                        if(documentSnapshot.data == null) {
+                            Timber.d("snapshot data null")
+                            firestoreUsers.document(userUid)
+                                .set(hashMapOf(
+                                    "progress" to sharedPref.getLocalProgress(),
+                                    "paid" to 0,
+                                    "createdAt" to System.currentTimeMillis()
+                                ))
+                                .addOnSuccessListener {
+                                    sharedPref.setUserProgress(sharedPref.getLocalProgress())
+                                    Timber.d("User was successfully created")
+                                }
+                                .addOnFailureListener {
+                                    Timber.d("Failed to create User record")
+                                }
+                        } else {
+                            Timber.d("snapshot data is not null")
+                            val userContentStatus = documentSnapshot.getLong("paid")?.toInt()
+                            val userProgress = documentSnapshot.getLong("progress")?.toInt()!!
+                            if(userContentStatus == 1){
+                                applicationScope.launch {
+                                    taskDao.unlockTasks()
+                                    meditationDao.unlockMeditations()
+                                    sharedPref.setContentBought(true)
+                                    binding.statusFree.visibility = View.GONE
+                                    binding.statusFull.visibility = View.VISIBLE
+                                }
+                            }
+                            if(userProgress > sharedPref.getLocalProgress()) {
+                                applicationScope.launch {
+                                    taskDao.openTasksUpTo(userProgress)
+                                    meditationDao.openMeditationsUpTo(userProgress)
+                                    sharedPref.setUserProgress(userProgress)
+                                }
+                            } else if(userProgress < sharedPref.getLocalProgress()){
+                                applicationScope.launch {
+                                    firestoreUsers.document(Firebase.auth.currentUser?.uid!!)
+                                        .set(hashMapOf("progress" to sharedPref.getLocalProgress()), SetOptions.merge())
+                                        .addOnSuccessListener {
+                                            Timber.d("User progress updated successfully!")
+                                        }
+                                        .addOnFailureListener {
+                                            Timber.d("Exception: ${it.message}")
+                                        }
+                                    sharedPref.setUserProgress(sharedPref.getLocalProgress())
+                                }
+                            }
+                        }
                     }
                     .addOnFailureListener { exception ->
                         Timber.d(exception.message)
