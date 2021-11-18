@@ -11,6 +11,9 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.RequestManager
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -25,9 +28,12 @@ import com.google.firebase.ktx.Firebase
 import com.topchu.recoverfrombreakup.R
 import com.topchu.recoverfrombreakup.data.local.daos.MeditationDao
 import com.topchu.recoverfrombreakup.data.local.daos.TaskDao
+import com.topchu.recoverfrombreakup.data.local.entities.NotificationEntity
 import com.topchu.recoverfrombreakup.databinding.FragmentProfileBinding
 import com.topchu.recoverfrombreakup.di.ApplicationScope
 import com.topchu.recoverfrombreakup.presentation.BuyActivity
+import com.topchu.recoverfrombreakup.presentation.MainViewModel
+import com.topchu.recoverfrombreakup.presentation.tasks.TasksAdapter
 import com.topchu.recoverfrombreakup.utils.SharedPref
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -41,6 +47,9 @@ class ProfileFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var launcher: ActivityResultLauncher<Intent>
+
+    private val viewModel : MainViewModel by activityViewModels()
+    private lateinit var notificationsAdapter: NotificationsAdapter
 
     @Inject
     lateinit var glide: RequestManager
@@ -75,7 +84,33 @@ class ProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.notificationRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+        notificationsAdapter = NotificationsAdapter().apply {
+            setOnItemClickListener(object : NotificationsAdapter.OnItemClickListener {
+                override fun onItemClick(notification: NotificationEntity) {
+                    if(notification.isActive){
+                        viewModel.deactivateNotification(notification.id)
+                    }
+                }
+            })
+        }
+        binding.notificationRecyclerView.adapter = notificationsAdapter
+        viewModel._notifications.observe(viewLifecycleOwner, { notifications ->
+            Timber.d(notifications.toString())
+            if(notifications.isNotEmpty()) {
+                notificationsAdapter.setNotifications(notifications)
+            }
+        })
         initFirebaseGoogleAuth()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Timber.d(sharedPref.isContentBought().toString())
+        if(sharedPref.isContentBought()) {
+            binding.statusFree.visibility = View.GONE
+            binding.statusFull.visibility = View.VISIBLE
+        }
     }
 
     private fun initFirebaseGoogleAuth() {
@@ -90,10 +125,6 @@ class ProfileFragment : Fragment() {
                 binding.profileParent.visibility = View.VISIBLE
                 binding.email.text = auth?.currentUser?.email
                 glide.load(auth?.currentUser?.photoUrl).into(binding.profilePicture)
-                if(sharedPref.isContentBought()){
-                   binding.statusFree.visibility = View.GONE
-                   binding.statusFull.visibility = View.VISIBLE
-                }
                 binding.buy.setOnClickListener {
                     startActivity(Intent(requireActivity(), BuyActivity::class.java))
                 }
@@ -195,9 +226,9 @@ class ProfileFragment : Fragment() {
                                     taskDao.unlockTasks()
                                     meditationDao.unlockMeditations()
                                     sharedPref.setContentBought(true)
-                                    binding.statusFree.visibility = View.GONE
-                                    binding.statusFull.visibility = View.VISIBLE
                                 }
+                                binding.statusFree.visibility = View.GONE
+                                binding.statusFull.visibility = View.VISIBLE
                             }
                             if(userProgress > sharedPref.getLocalProgress()) {
                                 applicationScope.launch {

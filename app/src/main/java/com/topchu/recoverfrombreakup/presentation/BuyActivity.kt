@@ -210,11 +210,11 @@ class BuyActivity: AppCompatActivity() {
                                 Toast.LENGTH_LONG)
                             .show()
                     }
-                    sharedPref.setContentBought(true)
                     taskDao.unlockTasks()
                     meditationDao.unlockMeditations()
-                    this@BuyActivity.finish()
                 }
+                sharedPref.setContentBought(true)
+                this@BuyActivity.finish()
             }
         }
     }

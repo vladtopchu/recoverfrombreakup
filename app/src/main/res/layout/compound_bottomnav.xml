@@ -77,11 +77,26 @@
         android:padding="5dp"
         android:gravity="center">
 
-        <ImageView
-            android:id="@+id/toProfileImage"
+        <RelativeLayout
             android:layout_width="28dp"
-            android:layout_height="28dp"
-            android:src="@drawable/ic_profile"/>
+            android:layout_height="28dp">
+
+            <ImageView
+                android:id="@+id/toProfileImage"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:src="@drawable/ic_profile"/>
+
+            <ImageView
+                android:id="@+id/notif_indicator"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+
+                android:src="@drawable/ic_active" />
+
+        </RelativeLayout>
 
         <TextView
             android:id="@+id/toProfileName"
