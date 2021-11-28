@@ -80,15 +80,19 @@ class TasksFragment : Fragment() {
         recyclerViewAdapter = TasksAdapter().apply {
             setOnItemClickListener(object : TasksAdapter.OnItemClickListener {
                 override fun onItemClick(task: TaskEntity) {
-                    if(task.isOpened){
-                        (requireActivity() as MainActivity).currentFragment = R.id.taskFragment
-                        findNavController().navigate(TasksFragmentDirections.actionTasksFragmentToTaskFragment(task.id.toInt()), navOptions)
-                    } else if(task.isBlocked) {
-                        Toast.makeText(requireContext(), "Приобретите полную версию для доступа к данному дню", Toast.LENGTH_LONG).show()
-                    } else if(task.willOpenAt != null) {
-                        Toast.makeText(requireContext(), task.willOpenAt.toTimeObject().toString(), Toast.LENGTH_LONG).show()
-                    } else {
-                        Toast.makeText(requireContext(), "День откроется после прохождения предыдущего", Toast.LENGTH_LONG).show()
+                    when {
+                        task.isOpened -> {
+                            findNavController().navigate(TasksFragmentDirections.actionTasksFragmentToTaskFragment(task.id.toInt()), navOptions)
+                        }
+                        task.isBlocked -> {
+                            Toast.makeText(requireContext(), "Приобретите полную версию для доступа к данному дню", Toast.LENGTH_LONG).show()
+                        }
+                        task.willOpenAt != null -> {
+                            Toast.makeText(requireContext(), task.willOpenAt.toTimeObject().toString(), Toast.LENGTH_LONG).show()
+                        }
+                        else -> {
+                            Toast.makeText(requireContext(), "День откроется после прохождения предыдущего", Toast.LENGTH_LONG).show()
+                        }
                     }
                 }
             })

@@ -3,6 +3,8 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/dev/recoverfrombreakup/app/src/main/res/drawable-v24/ic_chart.xml" value="0.221875" />
+        <entry key="..\:/dev/recoverfrombreakup/app/src/main/res/drawable-v24/ic_chart_active.xml" value="0.221875" />
         <entry key="..\:/dev/recoverfrombreakup/app/src/main/res/drawable-v24/ic_meditation.xml" value="0.24166666666666667" />
         <entry key="..\:/dev/recoverfrombreakup/app/src/main/res/drawable-v24/ic_meditation_active.xml" value="0.22135416666666666" />
         <entry key="..\:/dev/recoverfrombreakup/app/src/main/res/drawable-v24/ic_meditations.xml" value="0.22916666666666666" />
@@ -37,6 +39,7 @@
         <entry key="..\:/dev/recoverfrombreakup/app/src/main/res/layout/custom_buttomnav.xml" value="0.22552083333333334" />
         <entry key="..\:/dev/recoverfrombreakup/app/src/main/res/layout/fragment_auth.xml" value="0.19791666666666666" />
         <entry key="..\:/dev/recoverfrombreakup/app/src/main/res/layout/fragment_buy.xml" value="0.22552083333333334" />
+        <entry key="..\:/dev/recoverfrombreakup/app/src/main/res/layout/fragment_chart.xml" value="0.20572916666666666" />
         <entry key="..\:/dev/recoverfrombreakup/app/src/main/res/layout/fragment_graph.xml" value="0.36666666666666664" />
         <entry key="..\:/dev/recoverfrombreakup/app/src/main/res/layout/fragment_meditations.xml" value="0.36666666666666664" />
         <entry key="..\:/dev/recoverfrombreakup/app/src/main/res/layout/fragment_profile.xml" value="0.22" />

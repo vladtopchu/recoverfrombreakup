@@ -69,6 +69,37 @@
         android:layout_margin="4dp"/>
 
     <LinearLayout
+        android:id="@+id/toChart"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="5dp"
+        android:gravity="center">
+
+        <ImageView
+            android:id="@+id/toChartImage"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:src="@drawable/ic_chart"/>
+
+        <TextView
+            android:id="@+id/toChartName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/bottomNavTextInactive"
+            android:layout_marginTop="5dp"
+            android:text="График"/>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="1.2dp"
+        android:layout_height="match_parent"
+        android:background="@color/light_gray"
+        android:layout_margin="4dp"/>
+
+    <LinearLayout
         android:id="@+id/toProfile"
         android:layout_weight="1"
         android:layout_width="0dp"

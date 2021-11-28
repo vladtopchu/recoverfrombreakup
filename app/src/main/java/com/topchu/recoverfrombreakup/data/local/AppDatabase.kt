@@ -6,9 +6,11 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.topchu.recoverfrombreakup.R
+import com.topchu.recoverfrombreakup.data.local.daos.ChartDao
 import com.topchu.recoverfrombreakup.data.local.daos.MeditationDao
 import com.topchu.recoverfrombreakup.data.local.daos.NotificationDao
 import com.topchu.recoverfrombreakup.data.local.daos.TaskDao
+import com.topchu.recoverfrombreakup.data.local.entities.ChartEntryEntity
 import com.topchu.recoverfrombreakup.data.local.entities.MeditationEntity
 import com.topchu.recoverfrombreakup.data.local.entities.NotificationEntity
 import com.topchu.recoverfrombreakup.data.local.entities.TaskEntity
@@ -19,13 +21,14 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Provider
 
-@Database(entities = [TaskEntity::class, MeditationEntity::class, NotificationEntity::class], version = 1, exportSchema = false)
+@Database(entities = [TaskEntity::class, MeditationEntity::class, NotificationEntity::class, ChartEntryEntity::class], version = 1, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun taskDao(): TaskDao
     abstract fun meditationDao(): MeditationDao
     abstract fun notificationDao(): NotificationDao
+    abstract fun chartDao(): ChartDao
 
     class Callback @Inject constructor(
         // with Provider we can get dependencies lazily
@@ -42,6 +45,7 @@ abstract class AppDatabase : RoomDatabase() {
             val taskDao = database.get().taskDao()
             val meditationDao = database.get().meditationDao()
             val notificationDao = database.get().notificationDao()
+            val chartDao = database.get().chartDao()
 
             applicationScope.launch {
                 taskDao.insertTask(TaskEntity("День 1", "Сжигаем мосты",
@@ -154,6 +158,12 @@ abstract class AppDatabase : RoomDatabase() {
                     "Важно!",
                     "Без авторизации Ваш прогресс может быть утерян при переустановке приложения, а так же Вы не сможете приобрести платный контент и перенести текущий прогресс на другие устройства.",
                     System.currentTimeMillis() + 1000))
+
+                chartDao.insertChartEntry(ChartEntryEntity("02.11", 10, 123L))
+                chartDao.insertChartEntry(ChartEntryEntity("07.11", 6, 125L))
+                chartDao.insertChartEntry(ChartEntryEntity("12.11", 3, 129L))
+                chartDao.insertChartEntry(ChartEntryEntity("22.11", 5, 133L))
+                chartDao.insertChartEntry(ChartEntryEntity("27.11", 9, 143L))
             }
         }
     }

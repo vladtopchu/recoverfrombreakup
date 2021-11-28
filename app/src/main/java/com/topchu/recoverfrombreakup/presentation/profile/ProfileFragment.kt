@@ -12,7 +12,6 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.RequestManager
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -33,7 +32,6 @@ import com.topchu.recoverfrombreakup.databinding.FragmentProfileBinding
 import com.topchu.recoverfrombreakup.di.ApplicationScope
 import com.topchu.recoverfrombreakup.presentation.BuyActivity
 import com.topchu.recoverfrombreakup.presentation.MainViewModel
-import com.topchu.recoverfrombreakup.presentation.tasks.TasksAdapter
 import com.topchu.recoverfrombreakup.utils.SharedPref
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope

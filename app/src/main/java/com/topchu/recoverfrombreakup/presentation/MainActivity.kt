@@ -3,7 +3,10 @@ package com.topchu.recoverfrombreakup.presentation
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.TextureView
 import android.view.View
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
@@ -31,7 +34,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
 
-    var currentFragment = R.id.tasksFragment
+    private lateinit var navButtons: List<NavButton>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,69 +66,101 @@ class MainActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         super.onBackPressed()
-        if(navController.currentDestination?.id != currentFragment) {
-            navController.currentDestination?.id?.let {
-                toggleButton(it)
-            }
-            currentFragment = navController.currentDestination?.id!!
+        navController.currentDestination?.id?.let {
+            toggleButton(it)
         }
     }
 
     fun toggleButton(fragmentId: Int) {
-        when(fragmentId){
-            R.id.tasksFragment, R.id.taskFragment -> {
-                binding.bottomNav.toTasksImage.setImageResource(R.drawable.ic_tasks_active)
-                binding.bottomNav.toTasksName.setTextAppearance(TEXT_STYLE_ACTIVE)
-
-                binding.bottomNav.toMeditationsImage.setImageResource(R.drawable.ic_meditations)
-                binding.bottomNav.toMeditationsName.setTextAppearance(TEXT_STYLE_INACTVIVE)
-                binding.bottomNav.toProfileImage.setImageResource(R.drawable.ic_profile)
-                binding.bottomNav.toProfileName.setTextAppearance(TEXT_STYLE_INACTVIVE)
-            }
-            R.id.meditationsFragment, R.id.meditationFragment -> {
-                binding.bottomNav.toMeditationsImage.setImageResource(R.drawable.ic_meditations_active)
-                binding.bottomNav.toMeditationsName.setTextAppearance(TEXT_STYLE_ACTIVE)
-
-                binding.bottomNav.toTasksImage.setImageResource(R.drawable.ic_tasks)
-                binding.bottomNav.toTasksName.setTextAppearance(TEXT_STYLE_INACTVIVE)
-                binding.bottomNav.toProfileImage.setImageResource(R.drawable.ic_profile)
-                binding.bottomNav.toProfileName.setTextAppearance(TEXT_STYLE_INACTVIVE)
-            }
-            R.id.profileFragment -> {
-                binding.bottomNav.toProfileImage.setImageResource(R.drawable.ic_profile_active)
-                binding.bottomNav.toProfileName.setTextAppearance(TEXT_STYLE_ACTIVE)
-
-                binding.bottomNav.toTasksImage.setImageResource(R.drawable.ic_tasks)
-                binding.bottomNav.toTasksName.setTextAppearance(TEXT_STYLE_INACTVIVE)
-                binding.bottomNav.toMeditationsImage.setImageResource(R.drawable.ic_meditations)
-                binding.bottomNav.toMeditationsName.setTextAppearance(TEXT_STYLE_INACTVIVE)
+        for(button: NavButton in navButtons) {
+            if(button.ids.contains(fragmentId)) {
+                button.activate()
+            } else {
+                button.deactivate()
             }
         }
     }
 
     private fun initNavButtons() {
+        navButtons = listOf(
+            NavButton(
+                listOf(R.id.tasksFragment, R.id.taskFragment),
+                binding.bottomNav.toTasksImage,
+                binding.bottomNav.toTasksName,
+                R.drawable.ic_tasks_active,
+                R.drawable.ic_tasks,
+                isActive = true
+            ),
+            NavButton(
+                listOf(R.id.meditationsFragment, R.id.meditationFragment),
+                binding.bottomNav.toMeditationsImage,
+                binding.bottomNav.toMeditationsName,
+                R.drawable.ic_meditations_active,
+                R.drawable.ic_meditations
+            ),
+            NavButton(
+                listOf(R.id.chartFragment),
+                binding.bottomNav.toChartImage,
+                binding.bottomNav.toChartName,
+                R.drawable.ic_chart_active,
+                R.drawable.ic_chart
+            ),
+            NavButton(
+                listOf(R.id.profileFragment),
+                binding.bottomNav.toProfileImage,
+                binding.bottomNav.toProfileName,
+                R.drawable.ic_profile_active,
+                R.drawable.ic_profile
+            )
+        )
+
         binding.bottomNav.toTasks.setOnClickListener {
-            if(currentFragment != R.id.tasksFragment){
+            if(navController.currentDestination?.id != R.id.tasksFragment){
                 toggleButton(R.id.tasksFragment)
                 navController.navigate(R.id.tasksFragment, null, navOptions)
-                currentFragment = R.id.tasksFragment
             }
         }
 
         binding.bottomNav.toMeditations.setOnClickListener {
-            if(currentFragment != R.id.meditationsFragment){
+            if(navController.currentDestination?.id != R.id.meditationsFragment){
                 toggleButton(R.id.meditationsFragment)
                 navController.navigate(R.id.meditationsFragment, null, navOptions)
-                currentFragment = R.id.meditationsFragment
+            }
+        }
+
+        binding.bottomNav.toChart.setOnClickListener {
+            if(navController.currentDestination?.id != R.id.chartFragment){
+                toggleButton(R.id.chartFragment)
+                navController.navigate(R.id.chartFragment, null, navOptions)
             }
         }
 
         binding.bottomNav.toProfile.setOnClickListener {
-            if(currentFragment != R.id.profileFragment){
+            if(navController.currentDestination?.id != R.id.profileFragment){
                 toggleButton(R.id.profileFragment)
                 navController.navigate(R.id.profileFragment, null, navOptions)
-                currentFragment = R.id.profileFragment
             }
         }
+    }
+}
+
+private class NavButton(
+    val ids: List<Int>,
+    val imageView: ImageView,
+    val textView: TextView,
+    val activeImage: Int,
+    val inactiveImage: Int,
+    var isActive: Boolean = false
+) {
+
+    fun activate(){
+        imageView.setImageResource(activeImage)
+        textView.setTextAppearance(TEXT_STYLE_ACTIVE)
+        isActive = true
+    }
+    fun deactivate(){
+        imageView.setImageResource(inactiveImage)
+        textView.setTextAppearance(TEXT_STYLE_INACTVIVE)
+        isActive = false
     }
 }

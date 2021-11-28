@@ -55,5 +55,9 @@
         android:id="@+id/profileFragment"
         android:name="com.topchu.recoverfrombreakup.presentation.profile.ProfileFragment"
         android:label="ProfileFragment" />
+    <fragment
+        android:id="@+id/chartFragment"
+        android:name="com.topchu.recoverfrombreakup.presentation.chart.ChartFragment"
+        android:label="ChartFragment" />
 
 </navigation>

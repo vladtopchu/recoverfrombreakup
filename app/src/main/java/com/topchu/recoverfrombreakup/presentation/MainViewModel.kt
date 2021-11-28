@@ -18,7 +18,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor (
-    @ApplicationScope private val applicationScope: CoroutineScope,
     private val notificationDao: NotificationDao
 ) : ViewModel() {
     val _notifications = MutableLiveData<List<NotificationEntity>>(listOf())

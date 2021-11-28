@@ -1,11 +1,7 @@
 package com.topchu.recoverfrombreakup.utils
 
-import android.util.Log
 import androidx.room.TypeConverter
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import java.lang.Integer.parseInt
-import java.lang.reflect.Type
 
 class Converters {
     @TypeConverter

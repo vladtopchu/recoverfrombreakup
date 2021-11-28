@@ -49,7 +49,7 @@
 
     <style name="activitymain_buy">
         <item name="fontFamily">@font/montserrat_bold</item>
-        <item name="android:textColor">@color/awful_as_fuck_green</item>
+        <item name="android:textColor">@color/awful_green</item>
         <item name="android:textSize">18sp</item>
     </style>
     
@@ -97,14 +97,15 @@
     </style>
 
     <style name="bottomNavTextActive">
-        <item name="android:textSize">16sp</item>
+        <item name="android:textSize">13sp</item>
         <item name="android:textColor">@color/indigo</item>
         <item name="fontFamily">@font/montserrat_bold</item>
     </style>
 
     <style name="bottomNavTextInactive">
-        <item name="android:textSize">15sp</item>
+        <item name="android:textSize">14sp</item>
         <item name="fontFamily">@font/montserrat</item>
+        <item name="android:textColor">@color/gray</item>
     </style>
 
     <style name="buttonPrimary">
