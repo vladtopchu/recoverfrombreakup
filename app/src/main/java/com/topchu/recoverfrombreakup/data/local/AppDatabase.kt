@@ -159,11 +159,16 @@ abstract class AppDatabase : RoomDatabase() {
                     "Без авторизации Ваш прогресс может быть утерян при переустановке приложения, а так же Вы не сможете приобрести платный контент и перенести текущий прогресс на другие устройства.",
                     System.currentTimeMillis() + 1000))
 
-                chartDao.insertChartEntry(ChartEntryEntity("02.11", 10, 123L))
-                chartDao.insertChartEntry(ChartEntryEntity("07.11", 6, 125L))
-                chartDao.insertChartEntry(ChartEntryEntity("12.11", 3, 129L))
-                chartDao.insertChartEntry(ChartEntryEntity("22.11", 5, 133L))
-                chartDao.insertChartEntry(ChartEntryEntity("27.11", 9, 143L))
+//                chartDao.insertChartEntry(ChartEntryEntity("02.11", 7, 123L))
+//                chartDao.insertChartEntry(ChartEntryEntity("07.11", 5, 125L))
+//                chartDao.insertChartEntry(ChartEntryEntity("12.11", 3, 129L))
+//                chartDao.insertChartEntry(ChartEntryEntity("22.11", 5, 133L))
+//                chartDao.insertChartEntry(ChartEntryEntity("27.11", 3, 143L))
+//                chartDao.insertChartEntry(ChartEntryEntity("28.11", 7, 153L))
+//                chartDao.insertChartEntry(ChartEntryEntity("29.11", 5, 165L))
+//                chartDao.insertChartEntry(ChartEntryEntity("30.11", 3, 179L))
+//                chartDao.insertChartEntry(ChartEntryEntity("31.11", 5, 183L))
+//                chartDao.insertChartEntry(ChartEntryEntity("1.12", 3, 193L))
             }
         }
     }

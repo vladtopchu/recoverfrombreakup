@@ -27,11 +27,13 @@
         <entry key="..\:/dev/recoverfrombreakup/app/src/main/res/drawable/pink_button.xml" value="0.22916666666666666" />
         <entry key="..\:/dev/recoverfrombreakup/app/src/main/res/drawable/pink_ring.xml" value="0.23229166666666667" />
         <entry key="..\:/dev/recoverfrombreakup/app/src/main/res/drawable/play_ring.xml" value="0.23229166666666667" />
+        <entry key="..\:/dev/recoverfrombreakup/app/src/main/res/drawable/player_background.xml" value="0.3828125" />
         <entry key="..\:/dev/recoverfrombreakup/app/src/main/res/layout/activity_auth.xml" value="0.20520833333333333" />
         <entry key="..\:/dev/recoverfrombreakup/app/src/main/res/layout/activity_buy.xml" value="0.33" />
         <entry key="..\:/dev/recoverfrombreakup/app/src/main/res/layout/activity_hello.xml" value="0.2006340579710145" />
         <entry key="..\:/dev/recoverfrombreakup/app/src/main/res/layout/activity_main.xml" value="0.35260416666666666" />
         <entry key="..\:/dev/recoverfrombreakup/app/src/main/res/layout/activity_notifications.xml" value="0.20572916666666666" />
+        <entry key="..\:/dev/recoverfrombreakup/app/src/main/res/layout/activity_rate.xml" value="0.36666666666666664" />
         <entry key="..\:/dev/recoverfrombreakup/app/src/main/res/layout/activity_start.xml" value="0.36666666666666664" />
         <entry key="..\:/dev/recoverfrombreakup/app/src/main/res/layout/background_gradient.xml" value="0.21614583333333334" />
         <entry key="..\:/dev/recoverfrombreakup/app/src/main/res/layout/compound_bottomnav.xml" value="0.36666666666666664" />

@@ -1,11 +1,11 @@
 package com.topchu.recoverfrombreakup.presentation.chart
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.setPadding
 import androidx.fragment.app.viewModels
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.Entry
@@ -16,10 +16,7 @@ import com.topchu.recoverfrombreakup.R
 import com.topchu.recoverfrombreakup.data.local.entities.ChartEntryEntity
 import com.topchu.recoverfrombreakup.databinding.FragmentChartBinding
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
-import com.github.mikephil.charting.components.YAxis
-
-
+import com.topchu.recoverfrombreakup.presentation.chart.rate.RateActivity
 
 
 @AndroidEntryPoint
@@ -42,58 +39,77 @@ class ChartFragment : Fragment() {
 
         viewModel.entries.observe(viewLifecycleOwner, { chartData ->
             if(chartData != null) {
-                Timber.d(chartData.toString())
-                val labels = mutableListOf<String>()
-                val entries = mutableListOf<Entry>()
-                chartData.forEachIndexed { index, entry ->
-                    labels.add(entry.date)
-                    entries.add(Entry(index.toFloat(), entry.value.toFloat()))
+                binding.rateButton.visibility = View.GONE
+                binding.message.visibility = View.GONE
+                binding.chart.visibility = View.GONE
+                binding.progressCircular.visibility = View.VISIBLE
+                if(chartData.size < 3) {
+                    binding.progressCircular.visibility = View.GONE
+                    binding.message.text = "Оцени своё состояние ещё ${3 - chartData.size} раз${if(chartData.size == 1) "" else "а"},\nчтобы увидеть график"
+                    binding.message.visibility = View.VISIBLE
+                    toggleRateButton()
+                } else {
+                    prepareChart(chartData)
                 }
-                val dataSet = LineDataSet(entries, "First").apply {
-                    color = requireActivity().getColor(R.color.indigo)
-                    mode = LineDataSet.Mode.CUBIC_BEZIER
-                    lineWidth = 40f
-                    setDrawCircles(false)
-                }
-                val data = LineData(dataSet)
-                prepareChart(labels)
-                binding.chart.data = data
-                binding.chart.notifyDataSetChanged()
             }
         })
-
     }
 
-    fun prepareChart(_labels: MutableList<String>) {
-        binding.chart.apply {
+    private fun toggleRateButton() {
+        binding.rateButton.visibility = View.VISIBLE
+        binding.rateButton.setOnClickListener {
+            startActivity(Intent(requireActivity(), RateActivity::class.java))
+        }
+    }
 
+    private fun prepareChart(chartData: List<ChartEntryEntity>) {
+        val labels = mutableListOf<String>()
+        val entries = mutableListOf<Entry>()
+        chartData.forEachIndexed { index, entry ->
+            labels.add(entry.label)
+            entries.add(Entry(index.toFloat(), entry.value.toFloat()))
+        }
+        val dataSet = LineDataSet(entries, "First").apply {
+            color = requireActivity().getColor(R.color.indigo)
+            mode = LineDataSet.Mode.CUBIC_BEZIER
+            lineWidth = 20f
+            setDrawValues(false)
+            setDrawCircles(false)
+        }
+        val data = LineData(dataSet)
+        binding.progressCircular.visibility = View.GONE
+
+        binding.chart.apply {
             axisRight.isEnabled = false
 
             axisLeft.apply {
-                isEnabled = false
                 axisMinimum = 0f
                 axisMaximum = 10f
             }
 
             xAxis.apply {
                 isGranularityEnabled = true
-                granularity = 4f
-                setDrawGridLines(false)
+                granularity = 1f
                 valueFormatter = IndexAxisValueFormatter().apply {
-                    values = _labels.toTypedArray()
+                    values = labels.toTypedArray()
                 }
-                setLabelCount(_labels.size, true)
-                setDrawAxisLine(false)
+                setLabelCount(labels.size, false)
                 position = XAxis.XAxisPosition.BOTTOM
+                spaceMin = 0.2f
+                spaceMax = 0.2f
+                extraBottomOffset = 0.4f
             }
-
-            setTouchEnabled(false)
-            isDragEnabled = false
-            setScaleEnabled(false)
-            setPinchZoom(false)
 
             legend.isEnabled = false
             description.isEnabled = false
+
+            visibility = View.VISIBLE
+        }
+
+        binding.chart.data = data
+        binding.chart.notifyDataSetChanged()
+        if(System.currentTimeMillis() - 1000*60*60*24 >= chartData.last().createdAt) {
+            toggleRateButton()
         }
     }
 }

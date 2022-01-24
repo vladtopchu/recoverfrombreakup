@@ -11,6 +11,7 @@ import java.util.*
 fun <T> MutableLiveData<T>.asLiveData() = this as LiveData<T>
 
 fun Long.toTimeString(): String = SimpleDateFormat("dd:MM:yyyy:HH:mm:ss", Locale.ROOT).format(Date(this))
+fun Long.toTimeString(pattern: String): String = SimpleDateFormat(pattern, Locale.ROOT).format(Date(this))
 fun Long.toTimeObject(): TimeObject {
     val array = this.toTimeString().split(":").map { it.toInt() }
     return TimeObject(

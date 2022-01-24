@@ -11,7 +11,7 @@ import com.topchu.recoverfrombreakup.data.local.entities.NotificationEntity
 import com.topchu.recoverfrombreakup.databinding.ItemNotificationBinding
 import com.topchu.recoverfrombreakup.utils.toTimeString
 
-class NotificationsAdapter(): RecyclerView.Adapter<NotificationsAdapter.NotificationsViewHolder>()  {
+class NotificationsAdapter: RecyclerView.Adapter<NotificationsAdapter.NotificationsViewHolder>()  {
 
     private var _notificationsList: List<NotificationEntity>? = null
     fun setNotifications(notificationList: List<NotificationEntity>?) {

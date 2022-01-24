@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    tools:context=".presentation.chart.rate.RateActivity"
+    android:background="@drawable/background_gradient_2">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="6"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginHorizontal="15dp">
+
+            <TextView
+                android:id="@+id/rate_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/tutorial_title"
+                android:fontFamily="@font/montserrat_medium"
+                android:textSize="16sp"
+                android:textColor="@color/white"
+                android:text="@string/rate_title"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/opensans"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/white"
+                android:text="@string/rate_desc"/>
+
+        </LinearLayout>
+
+        <NumberPicker
+            android:id="@+id/number_picker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:theme="@style/NumberPickerTheme"
+            android:layout_marginEnd="10dp"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/apply"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="50dp"
+        android:text="Подтвердить оценку"
+        android:gravity="center"
+        android:layout_marginTop="20dp"
+        style="@style/button_to_intro"
+        android:background="@drawable/button_primary"
+        android:paddingTop="8dp"
+        android:paddingBottom="15dp"/>
+
+</LinearLayout>
